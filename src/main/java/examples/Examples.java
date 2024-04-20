@@ -33,6 +33,10 @@ public class Examples {
         CompanyRepository repository = new CompanyRepository();
 
 
+        // You can also use the Repository class directly without creating a custom repository
+        Repository<Company> repository2 = new Repository<>(Company.class);
+
+
         // insert example
 
         Company newCompany = new Company("HelloWorldCompany", "Rome");

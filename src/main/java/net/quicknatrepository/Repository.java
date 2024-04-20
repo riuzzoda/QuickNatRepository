@@ -135,11 +135,11 @@ public class Repository<T> {
 
     }
 
-    private Class<T>    typeClass;                              // The type class of the entity
-    private String      tableName;                              // The table name of the entity
-    private String      publicKeyColumnName     = null;         // The public key column name
-    private int         publicKeyColumnIndex    = -1;           // The public key column index
-    private Boolean     autoIncrement           = false;        // The public key is autoincrement
+    private Class<T> typeClass;                     // The type class of the entity
+    private String tableName;                       // The table name of the entity
+    private String publicKeyColumnName = null;      // The public key column name
+    private int publicKeyColumnIndex = -1;          // The public key column index
+    private Boolean autoIncrement = false;          // The public key is autoincrement
 
     private final List<String> columnNames = new ArrayList<>();                                   // The column names
     private final Map<String, String> fieldColumnNamesMap = new LinkedHashMap<>();                // The field column names map (field name -> column name)

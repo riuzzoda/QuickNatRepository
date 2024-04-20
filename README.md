@@ -72,6 +72,18 @@ public class Company {
 }
 ```
 
+Create an instance of the repository class:
+
+```java
+CompanyRepository repository = new CompanyRepository();
+```
+
+You can also use the Repository class directly without creating a custom repository:
+
+```java
+Repository<Company> repository = new Repository<>(Company.class);
+```
+
 You can also specify custom field getters and setters for the entity:
 
 ```java
