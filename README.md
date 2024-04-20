@@ -84,7 +84,7 @@ You can also use the Repository class directly without creating a custom reposit
 Repository<Company> repository = new Repository<>(Company.class);
 ```
 
-You can also specify custom field getters and setters for the entity:
+You can specify custom field getters and setters for the entity:
 
 ```java
 public class CompanyRepository extends Repository<Company> {
