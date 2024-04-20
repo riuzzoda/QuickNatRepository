@@ -125,6 +125,8 @@ public class CompanyRepository extends Repository<Company> {
 }
 ```
 
+This is useful when the entity class has a non-default constructor or requires additional setup before being used.
+
 ### CRUD Operations
 
 Here are some examples of how to use the repository class for CRUD operations:
