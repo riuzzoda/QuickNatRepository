@@ -14,7 +14,7 @@ This `Repository` utility class is designed to simplify database CRUD operations
 ## Prerequisites
 
 To use this utility class, ensure you have:
-- JDK 8 or higher.
+- JDK 11 or higher.
 - Maven dependencies for Javax Persistence API and the MySQL JDBC driver.
 
 ## Setup
