@@ -35,49 +35,49 @@ public class Repository<T> {
 
     // Constants
 
-    public static String INSERT_INTO_RAW_QUERY = "INSERT INTO %s (%s) VALUES (%s);";
-    public static String UPDATE_RAW_QUERY = "UPDATE %s SET %s WHERE %s = ?;";
+    private final static String INSERT_INTO_RAW_QUERY = "INSERT INTO %s (%s) VALUES (%s);";
+    private final static String UPDATE_RAW_QUERY = "UPDATE %s SET %s WHERE %s = ?;";
 
-    public static String SELECT_ALL_RAW_QUERY = "SELECT * FROM %s;";
-    public static String SELECT_ALL_LIMIT_RAW_QUERY = "SELECT * FROM %s LIMIT %s;";
-    public static String SELECT_ALL_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s LIMIT %s OFFSET %s;";
-    public static String SELECT_ALL_ORDER_BY_RAW_QUERY = "SELECT * FROM %s ORDER BY %s;";
-    public static String SELECT_ALL_ORDER_BY_LIMIT_RAW_QUERY = "SELECT * FROM %s ORDER BY %s LIMIT %s;";
-    public static String SELECT_ALL_ORDER_BY_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s ORDER BY %s LIMIT %s OFFSET %s;";
+    private final static String SELECT_ALL_RAW_QUERY = "SELECT * FROM %s;";
+    private final static String SELECT_ALL_LIMIT_RAW_QUERY = "SELECT * FROM %s LIMIT %s;";
+    private final static String SELECT_ALL_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s LIMIT %s OFFSET %s;";
+    private final static String SELECT_ALL_ORDER_BY_RAW_QUERY = "SELECT * FROM %s ORDER BY %s;";
+    private final static String SELECT_ALL_ORDER_BY_LIMIT_RAW_QUERY = "SELECT * FROM %s ORDER BY %s LIMIT %s;";
+    private final static String SELECT_ALL_ORDER_BY_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s ORDER BY %s LIMIT %s OFFSET %s;";
 
-    public static String SELECT_WHERE_RAW_QUERY = "SELECT * FROM %s WHERE %s;";
-    public static String SELECT_WHERE_LIMIT_RAW_QUERY = "SELECT * FROM %s WHERE %s LIMIT %s;";
-    public static String SELECT_WHERE_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s WHERE %s LIMIT %s OFFSET %s;";
-    public static String SELECT_WHERE_ORDER_BY_RAW_QUERY = "SELECT * FROM %s WHERE %s ORDER BY %s;";
-    public static String SELECT_WHERE_ORDER_BY_LIMIT_RAW_QUERY = "SELECT * FROM %s WHERE %s ORDER BY %s LIMIT %s;";
-    public static String SELECT_WHERE_ORDER_BY_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s WHERE %s ORDER BY %s LIMIT %s OFFSET %s;";
+    private final static String SELECT_WHERE_RAW_QUERY = "SELECT * FROM %s WHERE %s;";
+    private final static String SELECT_WHERE_LIMIT_RAW_QUERY = "SELECT * FROM %s WHERE %s LIMIT %s;";
+    private final static String SELECT_WHERE_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s WHERE %s LIMIT %s OFFSET %s;";
+    private final static String SELECT_WHERE_ORDER_BY_RAW_QUERY = "SELECT * FROM %s WHERE %s ORDER BY %s;";
+    private final static String SELECT_WHERE_ORDER_BY_LIMIT_RAW_QUERY = "SELECT * FROM %s WHERE %s ORDER BY %s LIMIT %s;";
+    private final static String SELECT_WHERE_ORDER_BY_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s WHERE %s ORDER BY %s LIMIT %s OFFSET %s;";
 
-    public static String SELECT_BY_KEY_RAW_QUERY = "SELECT * FROM %s WHERE %s = ?;";
-    public static String SELECT_BY_KEY_LIMIT_RAW_QUERY = "SELECT * FROM %s WHERE %s = ? LIMIT %s;";
-    public static String SELECT_BY_KEY_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s WHERE %s = ? LIMIT %s OFFSET %s;";
-    public static String SELECT_BY_KEY_ORDER_BY_RAW_QUERY = "SELECT * FROM %s WHERE %s = ? ORDER BY %s;";
-    public static String SELECT_BY_KEY_ORDER_BY_LIMIT_RAW_QUERY = "SELECT * FROM %s WHERE %s = ? ORDER BY %s LIMIT %s;";
-    public static String SELECT_BY_KEY_ORDER_BY_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s WHERE %s = ? ORDER BY %s LIMIT %s OFFSET %s;";
+    private final static String SELECT_BY_KEY_RAW_QUERY = "SELECT * FROM %s WHERE %s = ?;";
+    private final static String SELECT_BY_KEY_LIMIT_RAW_QUERY = "SELECT * FROM %s WHERE %s = ? LIMIT %s;";
+    private final static String SELECT_BY_KEY_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s WHERE %s = ? LIMIT %s OFFSET %s;";
+    private final static String SELECT_BY_KEY_ORDER_BY_RAW_QUERY = "SELECT * FROM %s WHERE %s = ? ORDER BY %s;";
+    private final static String SELECT_BY_KEY_ORDER_BY_LIMIT_RAW_QUERY = "SELECT * FROM %s WHERE %s = ? ORDER BY %s LIMIT %s;";
+    private final static String SELECT_BY_KEY_ORDER_BY_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s WHERE %s = ? ORDER BY %s LIMIT %s OFFSET %s;";
 
-    public static String SELECT_BY_KEYS_RAW_QUERY = "SELECT * FROM %s WHERE %s IN ( %s );";
-    public static String SELECT_BY_KEYS_LIMIT_RAW_QUERY = "SELECT * FROM %s WHERE %s IN ( %s ) LIMIT %s;";
-    public static String SELECT_BY_KEYS_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s WHERE %s IN ( %s ) LIMIT %s OFFSET %s;";
-    public static String SELECT_BY_KEYS_ORDER_BY_RAW_QUERY = "SELECT * FROM %s WHERE %s IN ( %s ) ORDER BY %s;";
-    public static String SELECT_BY_KEYS_ORDER_BY_LIMIT_RAW_QUERY = "SELECT * FROM %s WHERE %s IN ( %s ) ORDER BY %s LIMIT %s;";
-    public static String SELECT_BY_KEYS_ORDER_BY_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s WHERE %s IN ( %s ) ORDER BY %s LIMIT %s OFFSET %s;";
+    private final static String SELECT_BY_KEYS_RAW_QUERY = "SELECT * FROM %s WHERE %s IN ( %s );";
+    private final static String SELECT_BY_KEYS_LIMIT_RAW_QUERY = "SELECT * FROM %s WHERE %s IN ( %s ) LIMIT %s;";
+    private final static String SELECT_BY_KEYS_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s WHERE %s IN ( %s ) LIMIT %s OFFSET %s;";
+    private final static String SELECT_BY_KEYS_ORDER_BY_RAW_QUERY = "SELECT * FROM %s WHERE %s IN ( %s ) ORDER BY %s;";
+    private final static String SELECT_BY_KEYS_ORDER_BY_LIMIT_RAW_QUERY = "SELECT * FROM %s WHERE %s IN ( %s ) ORDER BY %s LIMIT %s;";
+    private final static String SELECT_BY_KEYS_ORDER_BY_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s WHERE %s IN ( %s ) ORDER BY %s LIMIT %s OFFSET %s;";
 
-    public static String DELETE_BY_KEY_RAW_QUERY = "DELETE FROM %s WHERE %s = ?;";
-    public static String DELETE_ALL_QUERY = "DELETE FROM %s;";
+    private final static String DELETE_BY_KEY_RAW_QUERY = "DELETE FROM %s WHERE %s = ?;";
+    private final static String DELETE_ALL_QUERY = "DELETE FROM %s;";
 
-    public static String SELECT_TOTAL_ROWS_RAW_QUERY = "SELECT COUNT(%s) as total FROM %s";
-    public static String SELECT_TOTAL_ROWS_BY_KEY_RAW_QUERY = "SELECT COUNT(%s) as total FROM %s WHERE %s = ?;";
+    private final static String SELECT_TOTAL_ROWS_RAW_QUERY = "SELECT COUNT(%s) as total FROM %s";
+    private final static String SELECT_TOTAL_ROWS_BY_KEY_RAW_QUERY = "SELECT COUNT(%s) as total FROM %s WHERE %s = ?;";
 
     /**
      * Generate a string with n mnemonic raw values
      * @param n The number of values
      * @return The string with the values
      */
-    public static String generateMnemonicRawValues (int n){
+    public static String generateSQLPlaceholders(int n){
         String temp = "?,".repeat(n);
         return new StringBuilder(temp).deleteCharAt(temp.length() -1).toString();
     }
@@ -91,6 +91,11 @@ public class Repository<T> {
         protected Optional<String> sortField;
         protected Optional<String> sortOrder;
 
+        /**
+         * Constructor
+         * @param page The page
+         * @param size The size
+         */
         public Pageable(Long page, Long size) {
             this.page = page;
             this.size = size;
@@ -98,6 +103,13 @@ public class Repository<T> {
             this.sortOrder = Optional.empty();
         }
 
+        /**
+         * Constructor
+         * @param page The page
+         * @param size The size
+         * @param sortField The sort field
+         * @param sortOrder The sort order
+         */
         public Pageable(Long page, Long size, String sortField, String sortOrder) {
             this.page = page;
             this.size = size;
@@ -125,15 +137,14 @@ public class Repository<T> {
 
     private Class<T>    typeClass;                              // The type class of the entity
     private String      tableName;                              // The table name of the entity
-    private boolean     hasPublicKey            = false;        // The entity has a public key
     private String      publicKeyColumnName     = null;         // The public key column name
     private int         publicKeyColumnIndex    = -1;           // The public key column index
     private Boolean     autoIncrement           = false;        // The public key is autoincrement
 
-    private List<String> columnNames = new ArrayList<>();                                   // The column names
-    private Map<String, String> fieldColumnNamesMap = new LinkedHashMap<>();                // The field column names map (field name -> column name)
-    private Map<String, BiConsumer<T,Object>> fieldValueSettersMap = new LinkedHashMap<>(); // The field value setters map (column name -> setter)
-    private Map<String, Function<T,Object>> fieldValueGetterMap = new LinkedHashMap<>();    // The field value getter map (column name -> getter)
+    private final List<String> columnNames = new ArrayList<>();                                   // The column names
+    private final Map<String, String> fieldColumnNamesMap = new LinkedHashMap<>();                // The field column names map (field name -> column name)
+    private final Map<String, BiConsumer<T,Object>> fieldValueSettersMap = new LinkedHashMap<>(); // The field value setters map (column name -> setter)
+    private final Map<String, Function<T,Object>> fieldValueGetterMap = new LinkedHashMap<>();    // The field value getter map (column name -> getter)
 
     // Constructor
 
@@ -145,7 +156,7 @@ public class Repository<T> {
         this.init(typeClass);
     }
 
-    // Utility methods
+    // Getters
 
     /**
      * Get the column name from the field name
@@ -219,40 +230,7 @@ public class Repository<T> {
         return publicKeyColumnIndex;
     }
 
-    /**
-     * Get the number of elements
-     * @param connection The connection
-     * @return The number of elements
-     * @throws SQLException
-     */
-    public long getTotalElements(Connection connection) throws SQLException {
-        String query = String.format(SELECT_TOTAL_ROWS_RAW_QUERY, this.publicKeyColumnName, this.tableName);
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if (resultSet.next()){
-            return resultSet.getLong("total");
-        }
-        return 0;
-    }
-
-    /**
-     * Get the number of elements by key
-     * @param connection The connection
-     * @param column The column
-     * @param value The value
-     * @return The number of elements
-     * @throws SQLException
-     */
-    public long getTotalElementsBy(Connection connection, String column, Object value) throws SQLException {
-        String query = String.format(SELECT_TOTAL_ROWS_BY_KEY_RAW_QUERY, this.publicKeyColumnName, this.tableName, column);
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setObject(1, value);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if (resultSet.next()){
-            return resultSet.getLong("total");
-        }
-        return 0;
-    }
+    // Bind methods
 
     /**
      * Bind a field to a setter
@@ -272,6 +250,43 @@ public class Repository<T> {
         this.fieldValueGetterMap.put(columnName,getter);
     }
 
+    // Count methods
+
+    /**
+     * Get the number of elements
+     * @param connection The connection
+     * @return The number of elements
+     * @throws SQLException The SQL exception if the operation fails for any reason
+     */
+    public long getTotalElements(Connection connection) throws SQLException {
+        String query = String.format(SELECT_TOTAL_ROWS_RAW_QUERY, this.publicKeyColumnName, this.tableName);
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()){
+            return resultSet.getLong("total");
+        }
+        return 0;
+    }
+
+    /**
+     * Get the number of elements by key
+     * @param connection The connection
+     * @param column The column
+     * @param value The value
+     * @return The number of elements
+     * @throws SQLException The SQL exception if the operation fails for any reason
+     */
+    public long getTotalElementsBy(Connection connection, String column, Object value) throws SQLException {
+        String query = String.format(SELECT_TOTAL_ROWS_BY_KEY_RAW_QUERY, this.publicKeyColumnName, this.tableName, column);
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setObject(1, value);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()){
+            return resultSet.getLong("total");
+        }
+        return 0;
+    }
+
     // Insert methods
 
     /**
@@ -279,7 +294,7 @@ public class Repository<T> {
      * @param connection The connection
      * @param entity The entity
      * @return The number of affected rows
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public long insert(Connection connection, T entity) throws SQLException {
         if (this.autoIncrement){
@@ -293,7 +308,7 @@ public class Repository<T> {
 
     private long insert(Connection connection, T entity, List<String> columns) throws SQLException {
         String columnsList = String.join(",",columns);
-        String columnRawValues = generateMnemonicRawValues(columns.size());
+        String columnRawValues = generateSQLPlaceholders(columns.size());
         String query = String.format(INSERT_INTO_RAW_QUERY, this.tableName,columnsList,columnRawValues);
         PreparedStatement statement = this.autoIncrement ?
                 connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS) :
@@ -322,7 +337,7 @@ public class Repository<T> {
      * @param connection The connection
      * @param entity The entity
      * @return The number of affected rows
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public int update(Connection connection, T entity) throws SQLException {
         List<String> temp = new ArrayList<String>(this.columnNames);
@@ -351,7 +366,7 @@ public class Repository<T> {
      * @param connection The connection
      * @param publicKey The public key
      * @return True if the operation was successful
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public boolean delete(Connection connection, Object publicKey) throws SQLException {
         String query = String.format(DELETE_BY_KEY_RAW_QUERY, this.tableName,this.publicKeyColumnName);
@@ -364,7 +379,7 @@ public class Repository<T> {
      * Delete all entities
      * @param connection The connection
      * @return True if the operation was successful
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public boolean deleteAll(Connection connection) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(DELETE_ALL_QUERY);
@@ -378,7 +393,7 @@ public class Repository<T> {
      * @param connection The connection
      * @param pageable The pageable
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> read(Connection connection, Pageable pageable) throws SQLException {
         Long offset = pageable.page * pageable.size;
@@ -396,7 +411,7 @@ public class Repository<T> {
      * Read entities
      * @param connection The connection
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> read(Connection connection) throws SQLException {
         String query = String.format(SELECT_ALL_RAW_QUERY, this.tableName);
@@ -410,7 +425,7 @@ public class Repository<T> {
      * @param connection The connection
      * @param limit The limit (number of entities to read)
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> read(Connection connection, Long limit) throws SQLException {
         String query = String.format(SELECT_ALL_LIMIT_RAW_QUERY, this.tableName, limit);
@@ -425,7 +440,7 @@ public class Repository<T> {
      * @param limit The limit (number of entities to read)
      * @param offset The offset (number of entities to skip)
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> read(Connection connection, Long limit, Long offset) throws SQLException {
         String query = String.format(SELECT_ALL_LIMIT_OFFSET_RAW_QUERY, this.tableName, limit, offset);
@@ -439,7 +454,7 @@ public class Repository<T> {
      * @param connection The connection
      * @param orderByClause The order by clause
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> read(Connection connection, String orderByClause) throws SQLException {
         String query = String.format(SELECT_ALL_ORDER_BY_RAW_QUERY, this.tableName, orderByClause);
@@ -454,7 +469,7 @@ public class Repository<T> {
      * @param orderByClause The order by clause, e.g. "name DESC"
      * @param limit The limit (number of entities to read)
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> read(Connection connection, String orderByClause, Long limit) throws SQLException {
         String query = String.format(SELECT_ALL_ORDER_BY_LIMIT_RAW_QUERY, orderByClause, this.tableName, limit);
@@ -470,7 +485,7 @@ public class Repository<T> {
      * @param limit The limit (number of entities to read)
      * @param offset The offset (number of entities to skip)
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> read(Connection connection, String orderByClause, Long limit, Long offset) throws SQLException {
         String query = String.format(SELECT_ALL_ORDER_BY_LIMIT_OFFSET_RAW_QUERY, orderByClause, this.tableName, limit, offset);
@@ -487,7 +502,7 @@ public class Repository<T> {
      * @param whereClause The where clause, e.g. "name = 'John'"
      * @param pageable The pageable
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readWhere(Connection connection, String whereClause, Pageable pageable) throws SQLException {
         Long offset = pageable.page * pageable.size;
@@ -506,7 +521,7 @@ public class Repository<T> {
      * @param connection The connection
      * @param whereClause The where clause, e.g. "name = 'John'"
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readWhere(Connection connection, String whereClause) throws SQLException {
         String query = String.format(SELECT_WHERE_RAW_QUERY, this.tableName, whereClause);
@@ -521,7 +536,7 @@ public class Repository<T> {
      * @param whereClause The where clause, e.g. "name = 'John'"
      * @param limit The limit (number of entities to read)
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readWhere(Connection connection, String whereClause, Long limit) throws SQLException {
         String query = String.format(SELECT_WHERE_LIMIT_RAW_QUERY, this.tableName, whereClause, limit);
@@ -537,7 +552,7 @@ public class Repository<T> {
      * @param limit The limit (number of entities to read)
      * @param offset The offset (number of entities to skip)
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readWhere(Connection connection, String whereClause, Long limit, Long offset) throws SQLException {
         String query = String.format(SELECT_WHERE_LIMIT_OFFSET_RAW_QUERY, this.tableName, whereClause, limit, offset);
@@ -552,7 +567,7 @@ public class Repository<T> {
      * @param whereClause The where clause, e.g. "name = 'John'"
      * @param orderByClause The order by clause, e.g. "name DESC"
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readWhere(Connection connection, String whereClause, String orderByClause) throws SQLException {
         String query = String.format(SELECT_WHERE_ORDER_BY_RAW_QUERY, this.tableName, whereClause, orderByClause);
@@ -568,7 +583,7 @@ public class Repository<T> {
      * @param orderByClause The order by clause, e.g. "name DESC"
      * @param limit The limit (number of entities to read)
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readWhere(Connection connection, String whereClause, String orderByClause, Long limit) throws SQLException {
         String query = String.format(SELECT_WHERE_ORDER_BY_LIMIT_RAW_QUERY, whereClause, orderByClause, this.tableName, limit);
@@ -585,7 +600,7 @@ public class Repository<T> {
      * @param limit The limit (number of entities to read)
      * @param offset The offset (number of entities to skip)
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readWhere(Connection connection, String whereClause, String orderByClause, Long limit, Long offset) throws SQLException {
         String query = String.format(SELECT_WHERE_ORDER_BY_LIMIT_OFFSET_RAW_QUERY, whereClause, orderByClause, this.tableName, limit, offset);
@@ -603,7 +618,7 @@ public class Repository<T> {
      * @param value The value
      * @param pageable The pageable
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readBy(Connection connection, String columnName, Object value, Pageable pageable) throws SQLException {
         Long offset = pageable.page * pageable.size;
@@ -623,7 +638,7 @@ public class Repository<T> {
      * @param columnName The column name
      * @param values The values
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readBy(Connection connection, String columnName, List<Object> values, Pageable pageable) throws SQLException {
         Long offset = pageable.page * pageable.size;
@@ -643,7 +658,7 @@ public class Repository<T> {
      * @param columnName The column name
      * @param value The value
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readBy(Connection connection, String columnName, Object value) throws SQLException {
         String query = String.format(SELECT_BY_KEY_RAW_QUERY, this.tableName, columnName);
@@ -660,7 +675,7 @@ public class Repository<T> {
      * @param value The value
      * @param limit The limit (number of entities to read)
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readBy(Connection connection, String columnName, Object value, Long limit) throws SQLException {
         String query = String.format(SELECT_BY_KEY_LIMIT_RAW_QUERY, this.tableName, columnName, limit);
@@ -678,7 +693,7 @@ public class Repository<T> {
      * @param limit The limit (number of entities to read)
      * @param offset The offset (number of entities to skip)
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readBy(Connection connection, String columnName, Object value, Long limit, Long offset) throws SQLException {
         String query = String.format(SELECT_BY_KEY_LIMIT_OFFSET_RAW_QUERY, this.tableName, columnName, limit, offset);
@@ -695,7 +710,7 @@ public class Repository<T> {
      * @param value The value
      * @param orderByClause The order by clause, e.g. "name DESC"
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readBy(Connection connection, String columnName, Object value, String orderByClause) throws SQLException {
         String query = String.format(SELECT_BY_KEY_ORDER_BY_RAW_QUERY, this.tableName, columnName, orderByClause);
@@ -713,7 +728,7 @@ public class Repository<T> {
      * @param orderByClause The order by clause, e.g. "name DESC"
      * @param limit The limit (number of entities to read)
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readBy(Connection connection, String columnName, Object value, String orderByClause, Long limit) throws SQLException {
         String query = String.format(SELECT_BY_KEY_ORDER_BY_LIMIT_RAW_QUERY, this.tableName, columnName, orderByClause, limit);
@@ -732,7 +747,7 @@ public class Repository<T> {
      * @param limit The limit (number of entities to read)
      * @param offset The offset (number of entities to skip)
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readBy(Connection connection, String columnName, Object value, String orderByClause, Long limit, Long offset) throws SQLException {
         String query = String.format(SELECT_BY_KEY_ORDER_BY_LIMIT_OFFSET_RAW_QUERY, this.tableName, columnName, orderByClause, limit, offset);
@@ -748,11 +763,11 @@ public class Repository<T> {
      * @param columnName The column name
      * @param values The values
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readBy(Connection connection, String columnName, List<Object> values) throws SQLException {
         if (values.isEmpty()) return new ArrayList<>();
-        String rawValues = generateMnemonicRawValues(values.size());
+        String rawValues = generateSQLPlaceholders(values.size());
         String query = String.format(SELECT_BY_KEYS_RAW_QUERY, this.tableName, columnName, rawValues);
         PreparedStatement statement = connection.prepareStatement(query);
         this.populateStatement(statement,values);
@@ -767,11 +782,11 @@ public class Repository<T> {
      * @param values The values
      * @param limit The limit (number of entities to read)
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readBy(Connection connection, String columnName, List<Object> values, Long limit) throws SQLException {
         if (values.isEmpty()) return new ArrayList<>();
-        String rawValues = generateMnemonicRawValues(values.size());
+        String rawValues = generateSQLPlaceholders(values.size());
         String query = String.format(SELECT_BY_KEYS_LIMIT_RAW_QUERY, this.tableName, columnName, rawValues, limit);
         PreparedStatement statement = connection.prepareStatement(query);
         this.populateStatement(statement,values);
@@ -787,11 +802,11 @@ public class Repository<T> {
      * @param limit The limit (number of entities to read)
      * @param offset The offset (number of entities to skip)
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readBy(Connection connection, String columnName, List<Object> values, Long limit, Long offset) throws SQLException {
         if (values.isEmpty()) return new ArrayList<>();
-        String rawValues = generateMnemonicRawValues(values.size());
+        String rawValues = generateSQLPlaceholders(values.size());
         String query = String.format(SELECT_BY_KEYS_LIMIT_OFFSET_RAW_QUERY, this.tableName, columnName, rawValues, limit, offset);
         PreparedStatement statement = connection.prepareStatement(query);
         this.populateStatement(statement,values);
@@ -806,11 +821,11 @@ public class Repository<T> {
      * @param values The values
      * @param orderByClause The order by clause, e.g. "name DESC"
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readBy(Connection connection, String columnName, List<Object> values, String orderByClause) throws SQLException {
         if (values.isEmpty()) return new ArrayList<>();
-        String rawValues = generateMnemonicRawValues(values.size());
+        String rawValues = generateSQLPlaceholders(values.size());
         String query = String.format(SELECT_BY_KEYS_ORDER_BY_RAW_QUERY, this.tableName, columnName, rawValues, orderByClause);
         PreparedStatement statement = connection.prepareStatement(query);
         this.populateStatement(statement,values);
@@ -826,11 +841,11 @@ public class Repository<T> {
      * @param orderByClause The order by clause, e.g. "name DESC"
      * @param limit The limit (number of entities to read)
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readBy(Connection connection, String columnName, List<Object> values, String orderByClause, Long limit) throws SQLException {
         if (values.isEmpty()) return new ArrayList<>();
-        String rawValues = generateMnemonicRawValues(values.size());
+        String rawValues = generateSQLPlaceholders(values.size());
         String query = String.format(SELECT_BY_KEYS_ORDER_BY_LIMIT_RAW_QUERY, this.tableName, columnName, rawValues, orderByClause, limit);
         PreparedStatement statement = connection.prepareStatement(query);
         this.populateStatement(statement,values);
@@ -847,11 +862,11 @@ public class Repository<T> {
      * @param limit The limit (number of entities to read)
      * @param offset The offset (number of entities to skip)
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readBy(Connection connection, String columnName, List<Object> values, String orderByClause, Long limit, Long offset) throws SQLException {
         if (values.isEmpty()) return new ArrayList<>();
-        String rawValues = generateMnemonicRawValues(values.size());
+        String rawValues = generateSQLPlaceholders(values.size());
         String query = String.format(SELECT_BY_KEYS_ORDER_BY_LIMIT_OFFSET_RAW_QUERY, this.tableName, columnName, rawValues, orderByClause, limit, offset);
         PreparedStatement statement = connection.prepareStatement(query);
         this.populateStatement(statement,values);
@@ -867,7 +882,7 @@ public class Repository<T> {
      * @param query The query, e.g. "SELECT * FROM table WHERE name = ?"
      * @param values The values for the query
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readByQuery(Connection connection,String query, Object...values) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(query);
@@ -883,7 +898,7 @@ public class Repository<T> {
      * @param query The query, e.g. "SELECT * FROM table WHERE name = ?"
      * @param values The values for the query
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readByQuery(Connection connection,String query, List<Object> values) throws SQLException{
         PreparedStatement statement = connection.prepareStatement(query);
@@ -899,7 +914,7 @@ public class Repository<T> {
      * @param consumer The consumer for the entity and the result set (for custom reading)
      * @param values The values for the query
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readByQuery(Connection connection, String query, BiConsumer<ResultSet,T> consumer, Object...values) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(query);
@@ -916,7 +931,7 @@ public class Repository<T> {
      * @param consumer The consumer for the entity and the result set (for custom reading)
      * @param values The values for the query
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public List<T> readByQuery(Connection connection, String query, BiConsumer<ResultSet,T> consumer, List<Object> values) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(query);
@@ -933,7 +948,7 @@ public class Repository<T> {
      * @param consumer The consumer for the entity and the result set (for custom reading)
      * @param values The values for the query
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public <C extends T> List<C> readByQuery(Connection connection, String query, Supplier<C> supplier,  BiConsumer<ResultSet,C> consumer, Object...values) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(query);
@@ -951,7 +966,7 @@ public class Repository<T> {
      * @param consumer The consumer for the entity and the result set (for custom reading)
      * @param values The values for the query
      * @return The list of entities
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public <C extends T> List<C> readByQuery(Connection connection, String query, Supplier<C> supplier, BiConsumer<ResultSet,C> consumer, List<Object> values) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(query);
@@ -967,7 +982,7 @@ public class Repository<T> {
      * @param connection The connection
      * @param value The id of the entity
      * @return The entity
-     * @throws SQLException
+     * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public T readById(Connection connection, Object value) throws SQLException {
         List<T> results = readBy(connection, publicKeyColumnName, value);
@@ -977,6 +992,10 @@ public class Repository<T> {
 
     // Overrideable methods
 
+    /**
+     * Instantiate a new entity of type T. This method can be overridden if custom instantiation logic is required.
+     * @return A new instance of type T
+     */
     public T instantiateEntity()  {
         T temp = null;
         try {
@@ -987,6 +1006,12 @@ public class Repository<T> {
         } return temp;
     }
 
+    /**
+     * Populates the given entity with data from the ResultSet. This method can be overridden if custom population logic is required.
+     * @param resultSet The ResultSet from which to retrieve data
+     * @param obj The entity to be populated
+     * @throws SQLException The SQL exception if the operation fails for any reason
+     */
     public void populateEntity(ResultSet resultSet, T obj) throws SQLException {
         for (String columnName : columnNames) {
             Object rawValue = resultSet.getObject(columnName);
@@ -996,11 +1021,10 @@ public class Repository<T> {
 
     // Private methods
 
-    private int populateStatement (PreparedStatement statement, List<Object> values) throws SQLException {
-        int i;
-        for (i = 0; i < values.size(); i++) {
+    private void populateStatement (PreparedStatement statement, List<Object> values) throws SQLException {
+        for (int i = 0; i < values.size(); i++) {
             statement.setObject(i+1,values.get(i));
-        } return i;
+        }
     }
 
     private int populateStatement (PreparedStatement statement, T entity, List<String> columns) throws SQLException {
@@ -1068,8 +1092,7 @@ public class Repository<T> {
             columnNames.add(columnName);
             fieldColumnNamesMap.put(field.getName(),columnName);
             detectSetterAndGetter(field,columnName);
-            if (field.isAnnotationPresent(Id.class)){ // isFirstClass &&
-                this.hasPublicKey = true;
+            if (field.isAnnotationPresent(Id.class)){
                 this.publicKeyColumnName = columnName;
                 this.publicKeyColumnIndex = fieldIndex;
                 if (field.isAnnotationPresent(GeneratedValue.class) &&

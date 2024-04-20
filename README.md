@@ -132,7 +132,6 @@ Here are some examples of how to use the repository class for CRUD operations:
 #### Create
 ```java
 CompanyRepository repository = new CompanyRepository();
-
 Company newCompany = new Company("HelloWorldCompany", "Rome");
 
 long affectedRows = repository.insert(connection, newCompany);
