@@ -2,7 +2,7 @@
 
 ## Overview
 
-This `Repository` utility class is designed to simplify database CRUD operations for any Java entity annotated with Javax Persistence API. It provides standardized methods to insert, update, delete, and read objects from a MySQL database. The aim is to reduce the necessary boilerplate code and centralize database access logic into a single base class.
+This Java project introduces a versatile Repository<T> class designed to simplify database CRUD operations for any Java entity annotated with Javax Persistence API. It provides standardized methods to insert, update, delete, and read objects from a MySQL database.
 
 ## Features
 
@@ -16,6 +16,7 @@ This `Repository` utility class is designed to simplify database CRUD operations
 To use this utility class, ensure you have:
 - JDK 11 or higher.
 - Maven dependencies for Javax Persistence API and the MySQL JDBC driver.
+- MySQL Database
 
 ## Setup
 
@@ -111,7 +112,7 @@ public class CompanyRepository extends Repository<Company> {
     }
     
     @Override
-    public void populateEntity(ResultSet resultSet, CompanyDetails obj) throws SQLException {
+    public void populateEntity(ResultSet resultSet, Company obj) throws SQLException {
         obj.setId(resultSet.getString("id"));
         obj.setCompanyName(resultSet.getString("company_name"));
         obj.setCity(resultSet.getString("city"));
