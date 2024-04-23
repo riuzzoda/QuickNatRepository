@@ -18,11 +18,21 @@ public class Company {
     @Column
     private String city;
 
-    // This field is not mapped to a column in the database
-    // It is used to demonstrate how to handle extra fields
-    private String descriptionExtraField;
+    @Column(name = "details_id")
+    private String detailsId;
 
+    private CompanyDetails details;
+
+
+    // Default constructor
     public Company() {
+    }
+
+    // Constructor with companyName argument
+    // This constructor is used to show how to create an instance of the object
+    // when you can't use the default constructor because it requires a non-null argument
+    public Company(String companyName) {
+        this.companyName = companyName;
     }
 
     public Company(String companyName, String city) {
@@ -71,15 +81,22 @@ public class Company {
         this.city = (String)city;
     }
 
-
-    // Getter for the 'descriptionExtraField' field
-    public String getDescriptionExtraField() {
-        return descriptionExtraField;
+    public String getDetailsId() {
+        return detailsId;
     }
 
-    // Setter for the 'descriptionExtraField' field
-    public void setDescriptionExtraField(String descriptionExtraField) {
-        this.descriptionExtraField = descriptionExtraField;
+    public void setDetailsId(String detailsId) {
+        this.detailsId = detailsId;
     }
+
+    public CompanyDetails getDetails() {
+        return details;
+    }
+
+    public void setDetails(CompanyDetails details) {
+        this.details = details;
+    }
+
+
 
 }

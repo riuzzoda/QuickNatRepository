@@ -17,7 +17,6 @@ public class CompanyDetailsRepository extends Repository<CompanyDetails> {
     @Override
     public void populateEntity(ResultSet resultSet, CompanyDetails obj) throws SQLException {
         obj.setId(resultSet.getString("id"));
-        obj.setCompanyId(resultSet.getString("company_id"));
         obj.setBusinessType(resultSet.getString("business_type"));
         obj.setDescription(resultSet.getString("description"));
     }

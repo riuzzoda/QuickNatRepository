@@ -3,26 +3,20 @@ package examples.models;
 
 public class ExpandedCompany extends Company {
 
-    private String businessType;
-    private String description;
+    // This field is not mapped to a column in the database
+    // It is used to demonstrate how to handle extra fields
+    private String extraFieldFromAnotherTable;
 
     public ExpandedCompany() {
     }
 
-
-    public String getBusinessType() {
-        return businessType;
+    // Getter for the 'descriptionExtraField' field
+    public String getExtraFieldFromAnotherTable() {
+        return extraFieldFromAnotherTable;
     }
 
-    public void setBusinessType(String businessType) {
-        this.businessType = businessType;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    // Setter for the 'descriptionExtraField' field
+    public void setExtraFieldFromAnotherTable(String extraFieldFromAnotherTable) {
+        this.extraFieldFromAnotherTable = extraFieldFromAnotherTable;
     }
 }

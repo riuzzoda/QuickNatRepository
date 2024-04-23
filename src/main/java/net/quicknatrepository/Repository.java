@@ -67,7 +67,7 @@ public class Repository<T> {
     private final static String SELECT_BY_KEYS_ORDER_BY_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s WHERE %s IN ( %s ) ORDER BY %s LIMIT %s OFFSET %s;";
 
     private final static String DELETE_BY_KEY_RAW_QUERY = "DELETE FROM %s WHERE %s = ?;";
-    private final static String DELETE_ALL_QUERY = "DELETE FROM %s;";
+    private final static String DELETE_ALL_RAW_QUERY = "DELETE FROM %s;";
 
     private final static String SELECT_TOTAL_ROWS_RAW_QUERY = "SELECT COUNT(%s) as total FROM %s";
     private final static String SELECT_TOTAL_ROWS_BY_KEY_RAW_QUERY = "SELECT COUNT(%s) as total FROM %s WHERE %s = ?;";
@@ -382,7 +382,8 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public boolean deleteAll(Connection connection) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(DELETE_ALL_QUERY);
+        String query = String.format(DELETE_ALL_RAW_QUERY, this.tableName);
+        PreparedStatement statement = connection.prepareStatement(query);
         return statement.execute();
     }
 
@@ -1007,6 +1008,16 @@ public class Repository<T> {
     }
 
     /**
+     * Instantiate a new entity of type T. This method can be overridden if custom instantiation logic is required.
+     * @param resultSet The ResultSet from which to retrieve data
+     * @return A new instance of type T
+     * @throws SQLException The SQL exception if the operation fails for any reason
+     */
+    public T instantiateEntity(ResultSet resultSet) throws SQLException {
+        return instantiateEntity();
+    }
+
+    /**
      * Populates the given entity with data from the ResultSet. This method can be overridden if custom population logic is required.
      * @param resultSet The ResultSet from which to retrieve data
      * @param obj The entity to be populated
@@ -1021,43 +1032,28 @@ public class Repository<T> {
 
     // Private methods
 
-    private void populateStatement (PreparedStatement statement, List<Object> values) throws SQLException {
-        for (int i = 0; i < values.size(); i++) {
-            statement.setObject(i+1,values.get(i));
-        }
-    }
-
-    private int populateStatement (PreparedStatement statement, T entity, List<String> columns) throws SQLException {
-        int i;
-        for (i = 0; i < columns.size(); i++) {
-            String column = columns.get(i);
-            Object value = fieldValueGetterMap.get(column).apply(entity);
-            statement.setObject(i + 1,value);
-        } return i;
-    }
-
-    private List<T> readResultSet(ResultSet rs) throws SQLException {
+    private List<T> readResultSet(ResultSet resultSet) throws SQLException {
         ArrayList<T> results = new ArrayList<>();
         T temp = null;
-        while (rs.next()) {
-            temp = this.instantiateEntity();
-            this.populateEntity(rs,temp);
+        while (resultSet.next()) {
+            temp = this.instantiateEntity(resultSet);
+            this.populateEntity(resultSet,temp);
             results.add(temp);
         } return results;
     }
 
-    private List<T> readResultSet  (ResultSet resultSet,BiConsumer<ResultSet,T> consumer) throws SQLException {
+    private List<T> readResultSet(ResultSet resultSet,BiConsumer<ResultSet,T> consumer) throws SQLException {
         ArrayList<T> results = new ArrayList<>();
         T temp = null;
         while (resultSet.next()) {
-            temp = this.instantiateEntity();
+            temp = this.instantiateEntity(resultSet);
             this.populateEntity(resultSet,temp);
             consumer.accept(resultSet,temp);
             results.add(temp);
         } return results;
     }
 
-    private <C extends T> List<C> readResultSet  (ResultSet resultSet, Supplier<C> supplier, BiConsumer<ResultSet,C> consumer) throws SQLException {
+    private <C extends T> List<C> readResultSet(ResultSet resultSet, Supplier<C> supplier, BiConsumer<ResultSet,C> consumer) throws SQLException {
         ArrayList<C> results = new ArrayList<>();
         C temp = null;
         while (resultSet.next()) {
@@ -1066,6 +1062,21 @@ public class Repository<T> {
             consumer.accept(resultSet,temp);
             results.add(temp);
         } return results;
+    }
+
+    private void populateStatement(PreparedStatement statement, List<Object> values) throws SQLException {
+        for (int i = 0; i < values.size(); i++) {
+            statement.setObject(i+1,values.get(i));
+        }
+    }
+
+    private int populateStatement(PreparedStatement statement, T entity, List<String> columns) throws SQLException {
+        int i;
+        for (i = 0; i < columns.size(); i++) {
+            String column = columns.get(i);
+            Object value = fieldValueGetterMap.get(column).apply(entity);
+            statement.setObject(i + 1,value);
+        } return i;
     }
 
     private void init(Class <T> typeClass){
@@ -1085,7 +1096,7 @@ public class Repository<T> {
         }
     }
 
-    private void initField (Field field, int fieldIndex){
+    private void initField(Field field, int fieldIndex){
         if (field.isAnnotationPresent(Column.class)){
             String columnName = field.getAnnotation(Column.class).name().isEmpty() ?
                     field.getName() : field.getAnnotation(Column.class).name();
@@ -1103,7 +1114,7 @@ public class Repository<T> {
         }
     }
 
-    private void detectSetterAndGetter (Field field, String columnName){
+    private void detectSetterAndGetter(Field field, String columnName){
 
         field.setAccessible(true);
 

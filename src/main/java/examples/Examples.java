@@ -1,6 +1,7 @@
 package examples;
 
 import examples.models.Company;
+import examples.models.CompanyDetails;
 import examples.models.ExpandedCompany;
 import examples.repositories.CompanyRepository;
 import net.quicknatrepository.Repository;
@@ -21,20 +22,19 @@ import java.util.List;
  */
 public class Examples {
 
+    // Create a new instance of the CompanyRepository class
+    public static final CompanyRepository repository = new CompanyRepository();
+
+
+    // You can also use the Repository class directly without creating a custom repository
+    public static final Repository<CompanyDetails> companyDetailsRepository = new Repository<>(CompanyDetails.class);
+
     /**
      *  Consider using a connection manager to get a connection
      * @param cn
      * @throws SQLException
      */
     public static void examples(Connection cn) throws SQLException {
-
-
-        // Create a new instance of the CompanyRepository class
-        CompanyRepository repository = new CompanyRepository();
-
-
-        // You can also use the Repository class directly without creating a custom repository
-        Repository<Company> repository2 = new Repository<>(Company.class);
 
 
         // insert example
@@ -141,28 +141,34 @@ public class Examples {
 
         List<Company> companyList3 = repository.readByQuery(cn, "SELECT c.* FROM companies c INNER JOIN company_details cd ON c.id = cd.company_id WHERE c.city = ? AND cd.business_type = ?;", "Rome", "Industry");
 
-        List<Company> companyList4 = repository.readByQuery(cn, "SELECT c.*, cd.description AS description FROM companies c INNER JOIN company_details cd ON c.id = cd.company_id WHERE c.city = ? AND cd.business_type = ?;", Examples::deserializeExtraFieldsForCompany, "Rome", "Industry");
+        List<Company> companyList4 = repository.readByQuery(cn, "SELECT c.*, cd.business_type, cd.description FROM companies c INNER JOIN company_details cd ON c.details_id = cd.id WHERE c.city = ? AND cd.business_type = ?;", Examples::deserializeCompanyDetails, "Rome", "Industry");
 
-        List<ExpandedCompany> companyList5 = repository.readByQuery(cn, "SELECT c.*, cd.business_type AS business_type, cd.description AS description FROM companies c INNER JOIN company_details cd ON c.id = cd.company_id WHERE c.city = ? AND cd.business_type = ?;", Examples::createNewExpandedCompanyObject, Examples::deserializeExpandedCompany, "Rome", "Industry");
+        List<ExpandedCompany> companyList5 = repository.readByQuery(cn, "SELECT c.*, at.field_name AS extra_field FROM companies c INNER JOIN another_table at ON c.id = at.company_id WHERE c.city = ?;", Examples::createNewExpandedCompanyObject, Examples::deserializeExpandedCompany, "Rome");
 
     }
 
-    public static ExpandedCompany createNewExpandedCompanyObject(){
-        return new ExpandedCompany();
-    }
-
-    public static void deserializeExtraFieldsForCompany(ResultSet rs, Company company)  {
+    // Custom deserializer for fields that are not directly mapped to the object
+    public static void deserializeCompanyDetails(ResultSet rs, Company company)  {
+        CompanyDetails details = new CompanyDetails();
         try {
-            company.setDescriptionExtraField(rs.getString("description"));
+            details.setId(rs.getString("details_id"));
+            details.setBusinessType(rs.getString("business_type"));
+            details.setDescription(rs.getString("description"));
+            company.setDetails(details);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
+    // Custom object creator
+    public static ExpandedCompany createNewExpandedCompanyObject(){
+        return new ExpandedCompany();
+    }
+
+    // Custom deserializer
     public static void deserializeExpandedCompany(ResultSet rs, ExpandedCompany expandedCompany)  {
         try {
-            expandedCompany.setBusinessType(rs.getString("business_type"));
-            expandedCompany.setDescription(rs.getString("description"));
+            expandedCompany.setExtraFieldFromAnotherTable(rs.getString("extra_field"));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
