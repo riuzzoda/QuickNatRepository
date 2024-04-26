@@ -20,19 +20,20 @@ To use this utility class, ensure you have:
 
 ## Setup
 
-Include the following dependencies in your `pom.xml`:
+Include the following dependency in your `pom.xml` if you are using Maven:
 
 ```xml
 <dependency>
-    <groupId>javax.persistence</groupId>
-    <artifactId>javax.persistence-api</artifactId>
-    <version>2.2</version>
+    <groupId>net.quicknatrepository</groupId>
+    <artifactId>quicknat-repository</artifactId>
+    <version>1.0.2</version>
 </dependency>
-<dependency>
-    <groupId>mysql</groupId>
-    <artifactId>mysql-connector-java</artifactId>
-    <version>8.0.23</version>
-</dependency>
+```
+
+If you are using Gradle, add the following dependency:
+
+```gradle
+implementation group: 'net.quicknatrepository', name: 'quicknat-repository', version: '1.0.1'
 ```
 
 ## Usage
