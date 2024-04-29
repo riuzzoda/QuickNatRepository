@@ -22,6 +22,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.sql.Date;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -1143,6 +1144,23 @@ public class Repository<T> {
                     final Timestamp timestampValue = (Timestamp) y;
                     Date date = new Date(timestampValue.getTime());
                     field.set(x, date);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            });
+            this.fieldValueGetterMap.put(columnName, (x) -> {
+                try {
+                    Object value = field.get(x);
+                    return value;
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            });
+        } else if (field.getType().equals(Timestamp.class)){
+            this.fieldValueSettersMap.put(columnName, (x, y) -> {
+                try {
+                    field.set(x, Timestamp.valueOf((LocalDateTime) y));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
