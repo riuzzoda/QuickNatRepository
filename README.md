@@ -26,14 +26,14 @@ Include the following dependency in your `pom.xml` if you are using Maven:
 <dependency>
     <groupId>net.quicknatrepository</groupId>
     <artifactId>quicknat-repository</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 
 If you are using Gradle, add the following dependency:
 
 ```gradle
-implementation group: 'net.quicknatrepository', name: 'quicknat-repository', version: '1.0.2'
+implementation group: 'net.quicknatrepository', name: 'quicknat-repository', version: '1.0.3'
 ```
 
 ## Usage
