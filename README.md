@@ -26,7 +26,7 @@ Include the following dependency in your `pom.xml` if you are using Maven:
 <dependency>
     <groupId>net.quicknatrepository</groupId>
     <artifactId>quicknat-repository</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 </dependency>
 ```
 
