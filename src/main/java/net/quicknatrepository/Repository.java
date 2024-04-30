@@ -39,33 +39,33 @@ public class Repository<T> {
     private final static String INSERT_INTO_RAW_QUERY = "INSERT INTO %s (%s) VALUES (%s);";
     private final static String UPDATE_RAW_QUERY = "UPDATE %s SET %s WHERE %s = ?;";
 
-    private final static String SELECT_ALL_RAW_QUERY = "SELECT * FROM %s;";
-    private final static String SELECT_ALL_LIMIT_RAW_QUERY = "SELECT * FROM %s LIMIT %s;";
-    private final static String SELECT_ALL_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s LIMIT %s OFFSET %s;";
-    private final static String SELECT_ALL_ORDER_BY_RAW_QUERY = "SELECT * FROM %s ORDER BY %s;";
-    private final static String SELECT_ALL_ORDER_BY_LIMIT_RAW_QUERY = "SELECT * FROM %s ORDER BY %s LIMIT %s;";
-    private final static String SELECT_ALL_ORDER_BY_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s ORDER BY %s LIMIT %s OFFSET %s;";
+    private final static String SELECT_ALL_RAW_QUERY = "SELECT %s FROM %s;";
+    private final static String SELECT_ALL_LIMIT_RAW_QUERY = "SELECT %s FROM %s LIMIT %s;";
+    private final static String SELECT_ALL_LIMIT_OFFSET_RAW_QUERY = "SELECT %s FROM %s LIMIT %s OFFSET %s;";
+    private final static String SELECT_ALL_ORDER_BY_RAW_QUERY = "SELECT %s FROM %s ORDER BY %s;";
+    private final static String SELECT_ALL_ORDER_BY_LIMIT_RAW_QUERY = "SELECT %s FROM %s ORDER BY %s LIMIT %s;";
+    private final static String SELECT_ALL_ORDER_BY_LIMIT_OFFSET_RAW_QUERY = "SELECT %s FROM %s ORDER BY %s LIMIT %s OFFSET %s;";
 
-    private final static String SELECT_WHERE_RAW_QUERY = "SELECT * FROM %s WHERE %s;";
-    private final static String SELECT_WHERE_LIMIT_RAW_QUERY = "SELECT * FROM %s WHERE %s LIMIT %s;";
-    private final static String SELECT_WHERE_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s WHERE %s LIMIT %s OFFSET %s;";
-    private final static String SELECT_WHERE_ORDER_BY_RAW_QUERY = "SELECT * FROM %s WHERE %s ORDER BY %s;";
-    private final static String SELECT_WHERE_ORDER_BY_LIMIT_RAW_QUERY = "SELECT * FROM %s WHERE %s ORDER BY %s LIMIT %s;";
-    private final static String SELECT_WHERE_ORDER_BY_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s WHERE %s ORDER BY %s LIMIT %s OFFSET %s;";
+    private final static String SELECT_WHERE_RAW_QUERY = "SELECT %s FROM %s WHERE %s;";
+    private final static String SELECT_WHERE_LIMIT_RAW_QUERY = "SELECT %s FROM %s WHERE %s LIMIT %s;";
+    private final static String SELECT_WHERE_LIMIT_OFFSET_RAW_QUERY = "SELECT %s FROM %s WHERE %s LIMIT %s OFFSET %s;";
+    private final static String SELECT_WHERE_ORDER_BY_RAW_QUERY = "SELECT %s FROM %s WHERE %s ORDER BY %s;";
+    private final static String SELECT_WHERE_ORDER_BY_LIMIT_RAW_QUERY = "SELECT %s FROM %s WHERE %s ORDER BY %s LIMIT %s;";
+    private final static String SELECT_WHERE_ORDER_BY_LIMIT_OFFSET_RAW_QUERY = "SELECT %s FROM %s WHERE %s ORDER BY %s LIMIT %s OFFSET %s;";
 
-    private final static String SELECT_BY_KEY_RAW_QUERY = "SELECT * FROM %s WHERE %s = ?;";
-    private final static String SELECT_BY_KEY_LIMIT_RAW_QUERY = "SELECT * FROM %s WHERE %s = ? LIMIT %s;";
-    private final static String SELECT_BY_KEY_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s WHERE %s = ? LIMIT %s OFFSET %s;";
-    private final static String SELECT_BY_KEY_ORDER_BY_RAW_QUERY = "SELECT * FROM %s WHERE %s = ? ORDER BY %s;";
-    private final static String SELECT_BY_KEY_ORDER_BY_LIMIT_RAW_QUERY = "SELECT * FROM %s WHERE %s = ? ORDER BY %s LIMIT %s;";
-    private final static String SELECT_BY_KEY_ORDER_BY_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s WHERE %s = ? ORDER BY %s LIMIT %s OFFSET %s;";
+    private final static String SELECT_BY_KEY_RAW_QUERY = "SELECT %s FROM %s WHERE %s = ?;";
+    private final static String SELECT_BY_KEY_LIMIT_RAW_QUERY = "SELECT %s FROM %s WHERE %s = ? LIMIT %s;";
+    private final static String SELECT_BY_KEY_LIMIT_OFFSET_RAW_QUERY = "SELECT %s FROM %s WHERE %s = ? LIMIT %s OFFSET %s;";
+    private final static String SELECT_BY_KEY_ORDER_BY_RAW_QUERY = "SELECT %s FROM %s WHERE %s = ? ORDER BY %s;";
+    private final static String SELECT_BY_KEY_ORDER_BY_LIMIT_RAW_QUERY = "SELECT %s FROM %s WHERE %s = ? ORDER BY %s LIMIT %s;";
+    private final static String SELECT_BY_KEY_ORDER_BY_LIMIT_OFFSET_RAW_QUERY = "SELECT %s FROM %s WHERE %s = ? ORDER BY %s LIMIT %s OFFSET %s;";
 
-    private final static String SELECT_BY_KEYS_RAW_QUERY = "SELECT * FROM %s WHERE %s IN ( %s );";
-    private final static String SELECT_BY_KEYS_LIMIT_RAW_QUERY = "SELECT * FROM %s WHERE %s IN ( %s ) LIMIT %s;";
-    private final static String SELECT_BY_KEYS_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s WHERE %s IN ( %s ) LIMIT %s OFFSET %s;";
-    private final static String SELECT_BY_KEYS_ORDER_BY_RAW_QUERY = "SELECT * FROM %s WHERE %s IN ( %s ) ORDER BY %s;";
-    private final static String SELECT_BY_KEYS_ORDER_BY_LIMIT_RAW_QUERY = "SELECT * FROM %s WHERE %s IN ( %s ) ORDER BY %s LIMIT %s;";
-    private final static String SELECT_BY_KEYS_ORDER_BY_LIMIT_OFFSET_RAW_QUERY = "SELECT * FROM %s WHERE %s IN ( %s ) ORDER BY %s LIMIT %s OFFSET %s;";
+    private final static String SELECT_BY_KEYS_RAW_QUERY = "SELECT %s FROM %s WHERE %s IN ( %s );";
+    private final static String SELECT_BY_KEYS_LIMIT_RAW_QUERY = "SELECT %s FROM %s WHERE %s IN ( %s ) LIMIT %s;";
+    private final static String SELECT_BY_KEYS_LIMIT_OFFSET_RAW_QUERY = "SELECT %s FROM %s WHERE %s IN ( %s ) LIMIT %s OFFSET %s;";
+    private final static String SELECT_BY_KEYS_ORDER_BY_RAW_QUERY = "SELECT %s FROM %s WHERE %s IN ( %s ) ORDER BY %s;";
+    private final static String SELECT_BY_KEYS_ORDER_BY_LIMIT_RAW_QUERY = "SELECT %s FROM %s WHERE %s IN ( %s ) ORDER BY %s LIMIT %s;";
+    private final static String SELECT_BY_KEYS_ORDER_BY_LIMIT_OFFSET_RAW_QUERY = "SELECT %s FROM %s WHERE %s IN ( %s ) ORDER BY %s LIMIT %s OFFSET %s;";
 
     private final static String DELETE_BY_KEY_RAW_QUERY = "DELETE FROM %s WHERE %s = ?;";
     private final static String DELETE_ALL_RAW_QUERY = "DELETE FROM %s;";
@@ -141,6 +141,7 @@ public class Repository<T> {
     private String publicKeyColumnName = null;      // The public key column name
     private int publicKeyColumnIndex = -1;          // The public key column index
     private Boolean autoIncrement = false;          // The public key is autoincrement
+    private String columnNamesString;               // The column names string
 
     private final List<String> columnNames = new ArrayList<>();                                   // The column names
     private final Map<String, String> fieldColumnNamesMap = new LinkedHashMap<>();                // The field column names map (field name -> column name)
@@ -416,7 +417,7 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final List<T> read(Connection connection) throws SQLException {
-        String query = String.format(SELECT_ALL_RAW_QUERY, this.tableName);
+        String query = String.format(SELECT_ALL_RAW_QUERY, this.columnNamesString, this.tableName);
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         return readResultSet(rs);
@@ -430,7 +431,7 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final List<T> read(Connection connection, Long limit) throws SQLException {
-        String query = String.format(SELECT_ALL_LIMIT_RAW_QUERY, this.tableName, limit);
+        String query = String.format(SELECT_ALL_LIMIT_RAW_QUERY, this.columnNamesString, this.tableName, limit);
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         return readResultSet(rs);
@@ -445,7 +446,7 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final List<T> read(Connection connection, Long limit, Long offset) throws SQLException {
-        String query = String.format(SELECT_ALL_LIMIT_OFFSET_RAW_QUERY, this.tableName, limit, offset);
+        String query = String.format(SELECT_ALL_LIMIT_OFFSET_RAW_QUERY, this.columnNamesString, this.tableName, limit, offset);
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         return readResultSet(rs);
@@ -459,7 +460,7 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final List<T> read(Connection connection, String orderByClause) throws SQLException {
-        String query = String.format(SELECT_ALL_ORDER_BY_RAW_QUERY, this.tableName, orderByClause);
+        String query = String.format(SELECT_ALL_ORDER_BY_RAW_QUERY, this.columnNamesString, this.tableName, orderByClause);
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         return readResultSet(rs);
@@ -474,7 +475,7 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final List<T> read(Connection connection, String orderByClause, Long limit) throws SQLException {
-        String query = String.format(SELECT_ALL_ORDER_BY_LIMIT_RAW_QUERY, orderByClause, this.tableName, limit);
+        String query = String.format(SELECT_ALL_ORDER_BY_LIMIT_RAW_QUERY, this.columnNamesString, this.tableName, orderByClause, limit);
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         return readResultSet(rs);
@@ -490,7 +491,7 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final List<T> read(Connection connection, String orderByClause, Long limit, Long offset) throws SQLException {
-        String query = String.format(SELECT_ALL_ORDER_BY_LIMIT_OFFSET_RAW_QUERY, orderByClause, this.tableName, limit, offset);
+        String query = String.format(SELECT_ALL_ORDER_BY_LIMIT_OFFSET_RAW_QUERY, this.columnNamesString, this.tableName, orderByClause, limit, offset);
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         return readResultSet(rs);
@@ -526,7 +527,7 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final List<T> readWhere(Connection connection, String whereClause) throws SQLException {
-        String query = String.format(SELECT_WHERE_RAW_QUERY, this.tableName, whereClause);
+        String query = String.format(SELECT_WHERE_RAW_QUERY, this.columnNamesString, this.tableName, whereClause);
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         return readResultSet(rs);
@@ -541,7 +542,7 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final List<T> readWhere(Connection connection, String whereClause, Long limit) throws SQLException {
-        String query = String.format(SELECT_WHERE_LIMIT_RAW_QUERY, this.tableName, whereClause, limit);
+        String query = String.format(SELECT_WHERE_LIMIT_RAW_QUERY, this.columnNamesString, this.tableName, whereClause, limit);
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         return readResultSet(rs);
@@ -557,7 +558,7 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final List<T> readWhere(Connection connection, String whereClause, Long limit, Long offset) throws SQLException {
-        String query = String.format(SELECT_WHERE_LIMIT_OFFSET_RAW_QUERY, this.tableName, whereClause, limit, offset);
+        String query = String.format(SELECT_WHERE_LIMIT_OFFSET_RAW_QUERY, this.columnNamesString, this.tableName, whereClause, limit, offset);
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         return readResultSet(rs);
@@ -572,7 +573,7 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final List<T> readWhere(Connection connection, String whereClause, String orderByClause) throws SQLException {
-        String query = String.format(SELECT_WHERE_ORDER_BY_RAW_QUERY, this.tableName, whereClause, orderByClause);
+        String query = String.format(SELECT_WHERE_ORDER_BY_RAW_QUERY, this.columnNamesString, this.tableName, whereClause, orderByClause);
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         return readResultSet(rs);
@@ -588,7 +589,7 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final List<T> readWhere(Connection connection, String whereClause, String orderByClause, Long limit) throws SQLException {
-        String query = String.format(SELECT_WHERE_ORDER_BY_LIMIT_RAW_QUERY, whereClause, orderByClause, this.tableName, limit);
+        String query = String.format(SELECT_WHERE_ORDER_BY_LIMIT_RAW_QUERY, this.columnNamesString, this.tableName, whereClause, orderByClause, limit);
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         return readResultSet(rs);
@@ -605,7 +606,7 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final List<T> readWhere(Connection connection, String whereClause, String orderByClause, Long limit, Long offset) throws SQLException {
-        String query = String.format(SELECT_WHERE_ORDER_BY_LIMIT_OFFSET_RAW_QUERY, whereClause, orderByClause, this.tableName, limit, offset);
+        String query = String.format(SELECT_WHERE_ORDER_BY_LIMIT_OFFSET_RAW_QUERY, this.columnNamesString, this.tableName, whereClause, orderByClause, limit, offset);
         PreparedStatement statement = connection.prepareStatement(query);
         ResultSet rs = statement.executeQuery();
         return readResultSet(rs);
@@ -663,7 +664,7 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final List<T> readBy(Connection connection, String columnName, Object value) throws SQLException {
-        String query = String.format(SELECT_BY_KEY_RAW_QUERY, this.tableName, columnName);
+        String query = String.format(SELECT_BY_KEY_RAW_QUERY, this.columnNamesString, this.tableName, columnName);
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setObject(1, value);
         ResultSet rs = statement.executeQuery();
@@ -680,7 +681,7 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final List<T> readBy(Connection connection, String columnName, Object value, Long limit) throws SQLException {
-        String query = String.format(SELECT_BY_KEY_LIMIT_RAW_QUERY, this.tableName, columnName, limit);
+        String query = String.format(SELECT_BY_KEY_LIMIT_RAW_QUERY, this.columnNamesString, this.tableName, columnName, limit);
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setObject(1, value);
         ResultSet rs = statement.executeQuery();
@@ -698,7 +699,7 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final List<T> readBy(Connection connection, String columnName, Object value, Long limit, Long offset) throws SQLException {
-        String query = String.format(SELECT_BY_KEY_LIMIT_OFFSET_RAW_QUERY, this.tableName, columnName, limit, offset);
+        String query = String.format(SELECT_BY_KEY_LIMIT_OFFSET_RAW_QUERY, this.columnNamesString, this.tableName, columnName, limit, offset);
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setObject(1, value);
         ResultSet rs = statement.executeQuery();
@@ -715,7 +716,7 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final List<T> readBy(Connection connection, String columnName, Object value, String orderByClause) throws SQLException {
-        String query = String.format(SELECT_BY_KEY_ORDER_BY_RAW_QUERY, this.tableName, columnName, orderByClause);
+        String query = String.format(SELECT_BY_KEY_ORDER_BY_RAW_QUERY, this.columnNamesString, this.tableName, columnName, orderByClause);
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setObject(1, value);
         ResultSet rs = statement.executeQuery();
@@ -733,7 +734,7 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final List<T> readBy(Connection connection, String columnName, Object value, String orderByClause, Long limit) throws SQLException {
-        String query = String.format(SELECT_BY_KEY_ORDER_BY_LIMIT_RAW_QUERY, this.tableName, columnName, orderByClause, limit);
+        String query = String.format(SELECT_BY_KEY_ORDER_BY_LIMIT_RAW_QUERY, this.columnNamesString, this.tableName, columnName, orderByClause, limit);
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setObject(1, value);
         ResultSet rs = statement.executeQuery();
@@ -752,7 +753,7 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final List<T> readBy(Connection connection, String columnName, Object value, String orderByClause, Long limit, Long offset) throws SQLException {
-        String query = String.format(SELECT_BY_KEY_ORDER_BY_LIMIT_OFFSET_RAW_QUERY, this.tableName, columnName, orderByClause, limit, offset);
+        String query = String.format(SELECT_BY_KEY_ORDER_BY_LIMIT_OFFSET_RAW_QUERY, this.columnNamesString, this.tableName, columnName, orderByClause, limit, offset);
         PreparedStatement statement = connection.prepareStatement(query);
         statement.setObject(1, value);
         ResultSet rs = statement.executeQuery();
@@ -770,7 +771,7 @@ public class Repository<T> {
     public final List<T> readBy(Connection connection, String columnName, List<Object> values) throws SQLException {
         if (values.isEmpty()) return new ArrayList<>();
         String rawValues = generateSQLPlaceholders(values.size());
-        String query = String.format(SELECT_BY_KEYS_RAW_QUERY, this.tableName, columnName, rawValues);
+        String query = String.format(SELECT_BY_KEYS_RAW_QUERY, this.columnNamesString, this.tableName, columnName, rawValues);
         PreparedStatement statement = connection.prepareStatement(query);
         this.populateStatement(statement,values);
         ResultSet rs = statement.executeQuery();
@@ -789,7 +790,7 @@ public class Repository<T> {
     public final List<T> readBy(Connection connection, String columnName, List<Object> values, Long limit) throws SQLException {
         if (values.isEmpty()) return new ArrayList<>();
         String rawValues = generateSQLPlaceholders(values.size());
-        String query = String.format(SELECT_BY_KEYS_LIMIT_RAW_QUERY, this.tableName, columnName, rawValues, limit);
+        String query = String.format(SELECT_BY_KEYS_LIMIT_RAW_QUERY, this.columnNamesString, this.tableName, columnName, rawValues, limit);
         PreparedStatement statement = connection.prepareStatement(query);
         this.populateStatement(statement,values);
         ResultSet rs = statement.executeQuery();
@@ -809,7 +810,7 @@ public class Repository<T> {
     public final List<T> readBy(Connection connection, String columnName, List<Object> values, Long limit, Long offset) throws SQLException {
         if (values.isEmpty()) return new ArrayList<>();
         String rawValues = generateSQLPlaceholders(values.size());
-        String query = String.format(SELECT_BY_KEYS_LIMIT_OFFSET_RAW_QUERY, this.tableName, columnName, rawValues, limit, offset);
+        String query = String.format(SELECT_BY_KEYS_LIMIT_OFFSET_RAW_QUERY, this.columnNamesString, this.tableName, columnName, rawValues, limit, offset);
         PreparedStatement statement = connection.prepareStatement(query);
         this.populateStatement(statement,values);
         ResultSet rs = statement.executeQuery();
@@ -828,7 +829,7 @@ public class Repository<T> {
     public final List<T> readBy(Connection connection, String columnName, List<Object> values, String orderByClause) throws SQLException {
         if (values.isEmpty()) return new ArrayList<>();
         String rawValues = generateSQLPlaceholders(values.size());
-        String query = String.format(SELECT_BY_KEYS_ORDER_BY_RAW_QUERY, this.tableName, columnName, rawValues, orderByClause);
+        String query = String.format(SELECT_BY_KEYS_ORDER_BY_RAW_QUERY, this.columnNamesString, this.tableName, columnName, rawValues, orderByClause);
         PreparedStatement statement = connection.prepareStatement(query);
         this.populateStatement(statement,values);
         ResultSet rs = statement.executeQuery();
@@ -848,7 +849,7 @@ public class Repository<T> {
     public final List<T> readBy(Connection connection, String columnName, List<Object> values, String orderByClause, Long limit) throws SQLException {
         if (values.isEmpty()) return new ArrayList<>();
         String rawValues = generateSQLPlaceholders(values.size());
-        String query = String.format(SELECT_BY_KEYS_ORDER_BY_LIMIT_RAW_QUERY, this.tableName, columnName, rawValues, orderByClause, limit);
+        String query = String.format(SELECT_BY_KEYS_ORDER_BY_LIMIT_RAW_QUERY, this.columnNamesString, this.tableName, columnName, rawValues, orderByClause, limit);
         PreparedStatement statement = connection.prepareStatement(query);
         this.populateStatement(statement,values);
         ResultSet rs = statement.executeQuery();
@@ -869,7 +870,7 @@ public class Repository<T> {
     public final List<T> readBy(Connection connection, String columnName, List<Object> values, String orderByClause, Long limit, Long offset) throws SQLException {
         if (values.isEmpty()) return new ArrayList<>();
         String rawValues = generateSQLPlaceholders(values.size());
-        String query = String.format(SELECT_BY_KEYS_ORDER_BY_LIMIT_OFFSET_RAW_QUERY, this.tableName, columnName, rawValues, orderByClause, limit, offset);
+        String query = String.format(SELECT_BY_KEYS_ORDER_BY_LIMIT_OFFSET_RAW_QUERY, this.columnNamesString, this.tableName, columnName, rawValues, orderByClause, limit, offset);
         PreparedStatement statement = connection.prepareStatement(query);
         this.populateStatement(statement,values);
         ResultSet rs = statement.executeQuery();
@@ -1095,23 +1096,47 @@ public class Repository<T> {
         for (int i = 0; i < declaredFields.length; i++){
             this.initField(declaredFields[i],i);
         }
+
+        this.columnNamesString = generateColumnNames();
+
+    }
+
+    private String generateColumnNames(){
+        StringBuilder builder = new StringBuilder();
+        columnNames.forEach((String column)->{
+            builder.append(column.concat(","));
+        });
+        return builder.deleteCharAt( builder.length() -1).toString();
     }
 
     private void initField(Field field, int fieldIndex){
+
+        String columnName = "";
+
         if (field.isAnnotationPresent(Column.class)){
-            String columnName = field.getAnnotation(Column.class).name().isEmpty() ?
+            columnName = field.getAnnotation(Column.class).name().isEmpty() ?
                     field.getName() : field.getAnnotation(Column.class).name();
-            columnNames.add(columnName);
-            fieldColumnNamesMap.put(field.getName(),columnName);
-            detectSetterAndGetter(field,columnName);
-            if (field.isAnnotationPresent(Id.class)){
-                this.publicKeyColumnName = columnName;
-                this.publicKeyColumnIndex = fieldIndex;
-                if (field.isAnnotationPresent(GeneratedValue.class) &&
-                        field.getAnnotation(GeneratedValue.class).strategy().equals(GenerationType.AUTO)){
-                    this.autoIncrement = true;
-                }
+        }
+
+        if (field.isAnnotationPresent(Id.class)){
+
+            if (columnName.isEmpty()){
+                columnName = field.getName();
             }
+
+            this.publicKeyColumnName = columnName;
+            this.publicKeyColumnIndex = fieldIndex;
+
+            if (field.isAnnotationPresent(GeneratedValue.class) &&
+                    field.getAnnotation(GeneratedValue.class).strategy().equals(GenerationType.AUTO)){
+                this.autoIncrement = true;
+            }
+        }
+
+        if (!columnName.isEmpty()){
+            this.columnNames.add(columnName);
+            this.fieldColumnNamesMap.put(field.getName(),columnName);
+            detectSetterAndGetter(field,columnName);
         }
     }
 
