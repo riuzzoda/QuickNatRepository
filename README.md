@@ -33,7 +33,7 @@ Include the following dependency in your `pom.xml` if you are using Maven:
 If you are using Gradle, add the following dependency:
 
 ```gradle
-implementation group: 'net.quicknatrepository', name: 'quicknat-repository', version: '1.0.3'
+implementation group: 'net.quicknatrepository', name: 'quicknat-repository', version: '1.0.4'
 ```
 
 ## Usage
