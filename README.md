@@ -53,11 +53,10 @@ public class CompanyRepository extends Repository<Company> {
 Make sure your entity class is annotated with JPA annotations:
 
 ```java
-@Entity(name = "companies")
+@Table(name = "companies")
 public class Company {
 
     @Id
-    @Column
     private String id;
 
     @Column(name = "company_name")
