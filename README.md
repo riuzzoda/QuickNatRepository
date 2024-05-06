@@ -33,7 +33,7 @@ Include the following dependency in your `pom.xml` if you are using Maven:
 If you are using Gradle, add the following dependency:
 
 ```gradle
-implementation group: 'net.quicknatrepository', name: 'quicknat-repository', version: '1.0.3'
+implementation group: 'net.quicknatrepository', name: 'quicknat-repository', version: '1.0.4'
 ```
 
 ## Usage
@@ -53,11 +53,10 @@ public class CompanyRepository extends Repository<Company> {
 Make sure your entity class is annotated with JPA annotations:
 
 ```java
-@Entity(name = "companies")
+@Table(name = "companies")
 public class Company {
 
     @Id
-    @Column
     private String id;
 
     @Column(name = "company_name")
