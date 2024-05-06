@@ -72,6 +72,8 @@ public class Repository<T> {
 
     private final static String SELECT_TOTAL_ROWS_RAW_QUERY = "SELECT COUNT(%s) as total FROM %s";
     private final static String SELECT_TOTAL_ROWS_BY_KEY_RAW_QUERY = "SELECT COUNT(%s) as total FROM %s WHERE %s = ?;";
+    private final static String SELECT_TOTAL_ROWS_BY_KEYS_RAW_QUERY = "SELECT COUNT(%s) as total FROM %s WHERE %s IN ( %s );";
+    private final static String SELECT_TOTAL_ROWS_WHERE_RAW_QUERY = "SELECT COUNT(%s) as total FROM %s WHERE %s;";
 
     /**
      * Generate a string with n mnemonic raw values
@@ -133,6 +135,19 @@ public class Repository<T> {
         public void setSortOrder(String sortOrder) {
             this.sortOrder = sortOrder.isEmpty() ? Optional.empty() : Optional.of(sortOrder);
         }
+
+        public Long getPage() {
+            return page;
+        }
+
+        public Long getSize() {
+            return size;
+        }
+
+        public Long offset(){
+            return page * size;
+        }
+
 
     }
 
@@ -232,6 +247,17 @@ public class Repository<T> {
         return publicKeyColumnIndex;
     }
 
+    public Optional<String> getOrderByClauseFromPageable(Pageable pageable){
+        if (pageable.sortField.isEmpty() || pageable.sortOrder.isEmpty()){
+            return Optional.empty();
+        } else {
+            String sortColumnName = getFieldColumnName(pageable.sortField.get());
+            String desc = pageable.sortOrder.get().equals("desc") ? " DESC" : "";
+            String orderByClause = sortColumnName.concat(desc);
+            return Optional.of(orderByClause);
+        }
+    }
+
     // Bind methods
 
     /**
@@ -282,6 +308,44 @@ public class Repository<T> {
         String query = String.format(SELECT_TOTAL_ROWS_BY_KEY_RAW_QUERY, this.publicKeyColumnName, this.tableName, column);
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setObject(1, value);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()){
+            return resultSet.getLong("total");
+        }
+        return 0;
+    }
+
+    /**
+     * Get the number of elements by keys
+     * @param connection The connection
+     * @param column The column
+     * @param values The values
+     * @return The number of elements
+     * @throws SQLException The SQL exception if the operation fails for any reason
+     */
+    public final long getTotalElementsBy(Connection connection, String column, List<Object> values) throws SQLException {
+        if (values.isEmpty()) return 0L;
+        String rawValues = generateSQLPlaceholders(values.size());
+        String query = String.format(SELECT_TOTAL_ROWS_BY_KEYS_RAW_QUERY, this.publicKeyColumnName, this.tableName, column, rawValues);
+        PreparedStatement statement = connection.prepareStatement(query);
+        this.populateStatement(statement,values);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()){
+            return resultSet.getLong("total");
+        }
+        return 0;
+    }
+
+    /**
+     * Get the number of elements where
+     * @param connection The connection
+     * @param whereClause The where clause
+     * @return The number of elements
+     * @throws SQLException The SQL exception if the operation fails for any reason
+     */
+    public final long getTotalElementsWhere(Connection connection, String whereClause) throws SQLException {
+        String query = String.format(SELECT_TOTAL_ROWS_WHERE_RAW_QUERY, this.publicKeyColumnName, this.tableName, whereClause);
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()){
             return resultSet.getLong("total");

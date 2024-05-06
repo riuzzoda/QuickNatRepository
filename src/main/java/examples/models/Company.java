@@ -1,11 +1,11 @@
 package examples.models;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.UUID;
 
-@Entity(name = "companies")
+@Table(name = "companies")
 public class Company {
 
     @Id

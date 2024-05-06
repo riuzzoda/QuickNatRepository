@@ -81,6 +81,33 @@ public class RepositoryTest {
         }
     }
 
+
+    @Test
+    public void testTotalElements() throws SQLException {
+        try (Connection conn = dataSource.getConnection()) {
+            conn.setAutoCommit(false);
+            try {
+
+                Repository<Company> repo = new Repository<>(Company.class);
+
+                long totalElements = repo.getTotalElements(conn);
+                assertEquals(12, totalElements);
+
+                totalElements = repo.getTotalElementsBy(conn, "city", "Turin");
+                assertEquals(2, totalElements);
+
+                totalElements = repo.getTotalElementsBy(conn, "city",Arrays.asList("Turin", "Venice"));
+                assertEquals(3, totalElements);
+
+                totalElements = repo.getTotalElementsWhere(conn, "city = 'Milan'");
+                assertEquals(3, totalElements);
+
+            } finally {
+                conn.rollback();
+            }
+        }
+    }
+
     @Test
     public void testRead() throws SQLException {
         try (Connection conn = dataSource.getConnection()) {

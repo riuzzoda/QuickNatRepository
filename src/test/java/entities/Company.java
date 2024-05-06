@@ -1,10 +1,10 @@
 package entities;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Entity(name = "companies")
+@Table(name = "companies")
 public class Company {
 
     @Id

@@ -6,7 +6,7 @@
 
     <groupId>net.quicknatrepository</groupId>
     <artifactId>quicknat-repository</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <url>https://github.com/riuzzoda/QuickNatRepository</url>
 
     <description>Repository utility class is designed to simplify database CRUD operations for any Java entity annotated with Javax Persistence API</description>
