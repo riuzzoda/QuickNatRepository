@@ -51,7 +51,7 @@ public class Examples {
 
         // delete example
 
-        repository.delete(cn, newCompany.getId());
+        repository.deleteById(cn, newCompany.getId());
 
 
         // Read number of elements

@@ -70,10 +70,66 @@ public class RepositoryTest {
                 Company updatedCompany = repo.readById(conn, "co013");
                 assertEquals("Naples", updatedCompany.getCity());
 
-                repo.delete(conn, "co013");
+                repo.deleteById(conn, "co013");
 
                 List<Company> companies = repo.readBy(conn, "id", "co013");
                 assertEquals(0, companies.size());
+
+            } finally {
+                conn.rollback();
+            }
+        }
+    }
+
+
+    @Test
+    public void multipleInsertUpdateDelete() throws SQLException {
+        try (Connection conn = dataSource.getConnection()) {
+            conn.setAutoCommit(false);
+            try {
+
+                Repository<Company> repo = new Repository<>(Company.class);
+
+                Company company1 = new Company("co014","Code Studio 14", "Pisa");
+                Company company2 = new Company("co015","Code Studio 15", "Pisa");
+                Company company3 = new Company("co016","Code Studio 16", "Pisa");
+
+                List<Company> newCompanies = Arrays.asList(company1, company2, company3);
+
+                repo.insert(conn, newCompanies);
+
+                Company remoteCompany1 = repo.readById(conn, "co014");
+                assertEquals(company1.getId(), remoteCompany1.getId());
+                assertEquals(company1.getCompanyName(), remoteCompany1.getCompanyName());
+                assertEquals(company1.getCity(), remoteCompany1.getCity());
+
+                Company remoteCompany2 = repo.readById(conn, "co015");
+                assertEquals(company2.getId(), remoteCompany2.getId());
+                assertEquals(company2.getCompanyName(), remoteCompany2.getCompanyName());
+                assertEquals(company2.getCity(), remoteCompany2.getCity());
+
+                Company remoteCompany3 = repo.readById(conn, "co016");
+                assertEquals(company3.getId(), remoteCompany3.getId());
+                assertEquals(company3.getCompanyName(), remoteCompany3.getCompanyName());
+                assertEquals(company3.getCity(), remoteCompany3.getCity());
+
+                company1.setCity("Florence");
+                company2.setCity("Florence");
+                company3.setCity("Florence");
+
+                List<Company> updatedCompanies = Arrays.asList(company1, company2, company3);
+                repo.update(conn, updatedCompanies);
+
+                remoteCompany1 = repo.readById(conn, "co014");
+                assertEquals("Florence", remoteCompany1.getCity());
+
+                remoteCompany2 = repo.readById(conn, "co015");
+                assertEquals("Florence", remoteCompany2.getCity());
+
+                remoteCompany3 = repo.readById(conn, "co016");
+                assertEquals("Florence", remoteCompany3.getCity());
+
+                repo.delete(conn, newCompanies);
 
             } finally {
                 conn.rollback();

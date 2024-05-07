@@ -27,6 +27,7 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * Repository class, used to interact with the database.
@@ -68,6 +69,8 @@ public class Repository<T> {
     private final static String SELECT_BY_KEYS_ORDER_BY_LIMIT_OFFSET_RAW_QUERY = "SELECT %s FROM %s WHERE %s IN ( %s ) ORDER BY %s LIMIT %s OFFSET %s;";
 
     private final static String DELETE_BY_KEY_RAW_QUERY = "DELETE FROM %s WHERE %s = ?;";
+    private final static String DELETE_BY_KEYS_RAW_QUERY = "DELETE FROM %s WHERE %s  IN ( %s );";
+    private final static String DELETE_WHERE_RAW_QUERY = "DELETE FROM %s WHERE %s = ?;";
     private final static String DELETE_ALL_RAW_QUERY = "DELETE FROM %s;";
 
     private final static String SELECT_TOTAL_ROWS_RAW_QUERY = "SELECT COUNT(%s) as total FROM %s";
@@ -362,38 +365,69 @@ public class Repository<T> {
      * @return The number of affected rows
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
-    public final long insert(Connection connection, T entity) throws SQLException {
-        if (this.autoIncrement){
-            List<String> temp = new ArrayList<String>(columnNames);
-            temp.remove(this.publicKeyColumnIndex);
-            return this.insert(connection,entity,temp);
-        } else {
-            return this.insert(connection,entity, columnNames);
-        }
+    public final int insert(Connection connection, T entity) throws SQLException {
+        List<T> entities = new ArrayList<>();
+        entities.add(entity);
+        return insert(connection, entities)[0];
     }
 
-    private long insert(Connection connection, T entity, List<String> columns) throws SQLException {
-        String columnsList = String.join(",",columns);
-        String columnRawValues = generateSQLPlaceholders(columns.size());
-        String query = String.format(INSERT_INTO_RAW_QUERY, this.tableName,columnsList,columnRawValues);
-        PreparedStatement statement = this.autoIncrement ?
-                connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS) :
-                connection.prepareStatement(query);
-        this.populateStatement(statement,entity,columns);
-        int affectedRows = statement.executeUpdate();
-        if (affectedRows == 0) {
-            throw new SQLException("Creation failed, no rows affected.");
-        }
-        if (this.autoIncrement){
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    return generatedKeys.getLong(1);
-                }
-                else {
-                    throw new SQLException("Creation failed, no ID obtained.");
+    /**
+     * Insert entities
+     * @param connection The connection
+     * @param entities The entities
+     * @return An array with the number of affected rows (one for each entity)
+     * @throws SQLException The SQL exception if the operation fails for any reason
+     */
+    public final int[] insert(Connection connection, List<T> entities) throws SQLException {
+        if (entities.isEmpty()) return new int[0];
+
+        connection.setAutoCommit(false);  // Start transaction
+        try {
+            // Assumes all entities have the same columns to be inserted
+            List<String> columns = this.autoIncrement ?
+                    columnNames.stream().filter(c -> !c.equals(publicKeyColumnName)).collect(Collectors.toList()) :
+                    new ArrayList<>(columnNames);
+
+            String columnsList = String.join(",", columns);
+            String columnRawValues = generateSQLPlaceholders(columns.size());
+            String query = String.format(INSERT_INTO_RAW_QUERY, this.tableName, columnsList, columnRawValues);
+
+            PreparedStatement statement = this.autoIncrement ?
+                    connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS) :
+                    connection.prepareStatement(query);
+
+            for (T entity : entities) {
+                populateStatement(statement, entity, columns);
+                statement.addBatch();
+            }
+
+            int[] ints = statement.executeBatch();
+
+            if (this.autoIncrement) {
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+
+                    BiConsumer<T, Object> idSetter = this.fieldValueSettersMap.get(publicKeyColumnName);
+
+                    for (T entity : entities) {
+                        if (generatedKeys.next()) {
+                            long key = generatedKeys.getLong(1);
+                            idSetter.accept(entity, key);
+                        } else {
+                            throw new SQLException("Creation failed, no ID obtained for one of the entities.");
+                        }
+                    }
                 }
             }
-        } return affectedRows;
+
+            connection.commit();  // Commit transaction
+            return ints;
+
+        } catch (SQLException e) {
+            connection.rollback();  // Roll back transaction on error
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);  // Reset auto-commit to true
+        }
     }
 
     // Update methods
@@ -406,39 +440,160 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final int update(Connection connection, T entity) throws SQLException {
-        List<String> temp = new ArrayList<String>(this.columnNames);
-        temp.remove(this.publicKeyColumnIndex);
-        return update(connection,entity,temp);
+        List<T> entities = new ArrayList<>();
+        entities.add(entity);
+        return update(connection, entities)[0];
     }
 
-    private int update(Connection connection, T entity,List<String> columns) throws SQLException {
-        StringBuilder builder = new StringBuilder();
-        columns.forEach((String column)->{
-            builder.append(column.concat(" = ?,"));
-        });
-        String updateBodyRawQuery = builder.deleteCharAt( builder.length() -1).toString();
-        String query = String.format(UPDATE_RAW_QUERY, this.tableName,updateBodyRawQuery,this.publicKeyColumnName);
-        PreparedStatement statement = connection.prepareStatement(query);
-        int parameterIndex = populateStatement(statement,entity,columns);
-        Object entityId = this.fieldValueGetterMap.get(this.publicKeyColumnName).apply(entity);
-        statement.setObject(parameterIndex + 1, entityId);
-        return statement.executeUpdate();
+    /**
+     * Update entities
+     * @param connection The connection
+     * @param entities The entities
+     * @return An array with the number of affected rows (one for each entity)
+     * @throws SQLException The SQL exception if the operation fails for any reason
+     */
+    public final int[] update(Connection connection, List<T> entities) throws SQLException {
+
+        try {
+            connection.setAutoCommit(false);
+            List<String> columnsToUpdate = new ArrayList<>(this.columnNames);
+            columnsToUpdate.remove(this.publicKeyColumnIndex);
+            StringBuilder builder = new StringBuilder();
+            columnsToUpdate.forEach((String column)->{
+                builder.append(column.concat(" = ?,"));
+            });
+            String updateBodyRawQuery = builder.deleteCharAt( builder.length() -1).toString();
+            String query = String.format(UPDATE_RAW_QUERY, this.tableName,updateBodyRawQuery,this.publicKeyColumnName);
+            PreparedStatement statement = connection.prepareStatement(query);
+            Function<T, Object> idGetter = this.fieldValueGetterMap.get(this.publicKeyColumnName);
+
+            for (T entity : entities) {
+                int parameterIndex = populateStatement(statement,entity,columnsToUpdate);
+                Object entityId = idGetter.apply(entity);
+                statement.setObject(parameterIndex + 1, entityId);
+                statement.addBatch();
+            }
+
+            return statement.executeBatch();
+
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
+        }
     }
 
     // Delete methods
 
     /**
-     * Delete an entity by public key
+     * Delete an entity
      * @param connection The connection
-     * @param publicKey The public key
+     * @param entity The entity
+     * @throws SQLException The SQL exception if the operation fails for any reason
+     */
+    public final void delete(Connection connection, T entity) throws SQLException {
+        Object id = fieldValueGetterMap.get(publicKeyColumnName).apply(entity);
+        deleteById(connection, id);
+    }
+
+    /**
+     * Delete entities
+     * @param connection The connection
+     * @param entities The entities
+     * @throws SQLException The SQL exception if the operation fails for any reason
+     */
+    public final void delete(Connection connection, List<T> entities) throws SQLException {
+
+        connection.setAutoCommit(false);
+
+        try{
+
+            String query = String.format(DELETE_BY_KEY_RAW_QUERY, this.tableName, publicKeyColumnName);
+            PreparedStatement statement = connection.prepareStatement(query);
+            Function<T, Object> idGetter = fieldValueGetterMap.get(publicKeyColumnName);
+
+            for (T entity : entities) {
+                Object id = idGetter.apply(entity);
+                statement.setObject(1, id);
+                statement.addBatch();
+            }
+
+            statement.executeBatch();
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
+        }
+    }
+
+    /**
+     * Delete entities with a where clause
+     * @param connection The connection
+     * @param whereClause The where clause
      * @return True if the operation was successful
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
-    public final boolean delete(Connection connection, Object publicKey) throws SQLException {
-        String query = String.format(DELETE_BY_KEY_RAW_QUERY, this.tableName,this.publicKeyColumnName);
+    public final boolean deleteWhere(Connection connection, String whereClause) throws SQLException {
+        String query = String.format(DELETE_WHERE_RAW_QUERY, this.tableName, whereClause);
         PreparedStatement statement = connection.prepareStatement(query);
-        statement.setObject(1, publicKey);
         return statement.execute();
+    }
+
+    /**
+     * Delete an entity by key
+     * @param connection The connection
+     * @param columnName The column name
+     * @param value The value
+     * @return True if the operation was successful
+     * @throws SQLException The SQL exception if the operation fails for any reason
+     */
+    public final boolean deleteBy(Connection connection, String columnName, Object value) throws SQLException {
+        String query = String.format(DELETE_BY_KEY_RAW_QUERY, this.tableName, columnName);
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setObject(1, value);
+        return statement.execute();
+    }
+
+    /**
+     * Delete entities by key
+     * @param connection The connection
+     * @param columnName The column name
+     * @param values The values
+     * @return True if the operation was successful
+     * @throws SQLException The SQL exception if the operation fails for any reason
+     */
+    public final void deleteBy(Connection connection, String columnName, List<Object> values) throws SQLException {
+        if (values.isEmpty()) return;
+        String rawKeys = generateSQLPlaceholders(values.size());
+        String query = String.format(DELETE_BY_KEYS_RAW_QUERY, this.tableName, columnName, rawKeys);
+        PreparedStatement statement = connection.prepareStatement(query);
+        populateStatement(statement, values);
+        statement.execute();
+    }
+
+    /**
+     * Delete an entity by id
+     * @param connection The connection
+     * @param id The id
+     * @return True if the operation was successful
+     * @throws SQLException The SQL exception if the operation fails for any reason
+     */
+    public final boolean deleteById(Connection connection, Object id) throws SQLException {
+        return deleteBy(connection, this.publicKeyColumnName, id);
+    }
+
+    /**
+     * Delete entities by ids
+     * @param connection The connection
+     * @param ids The ids
+     * @throws SQLException The SQL exception if the operation fails for any reason
+     */
+    public final void deleteByIds(Connection connection, List<Object> ids) throws SQLException {
+        deleteBy(connection, this.publicKeyColumnName, ids);
     }
 
     /**
