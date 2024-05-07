@@ -408,54 +408,42 @@ public class Repository<T> {
      */
     public final int[] insert(Connection connection, List<T> entities) throws SQLException {
         if (entities.isEmpty()) return new int[0];
+        // Assumes all entities have the same columns to be inserted
+        List<String> columns = this.autoIncrement ?
+                columnNames.stream().filter(c -> !c.equals(publicKeyColumnName)).collect(Collectors.toList()) :
+                new ArrayList<>(columnNames);
 
-        connection.setAutoCommit(false);  // Start transaction
-        try {
-            // Assumes all entities have the same columns to be inserted
-            List<String> columns = this.autoIncrement ?
-                    columnNames.stream().filter(c -> !c.equals(publicKeyColumnName)).collect(Collectors.toList()) :
-                    new ArrayList<>(columnNames);
+        String columnsList = String.join(",", columns);
+        String columnRawValues = generateSQLPlaceholders(columns.size());
+        String query = String.format(INSERT_INTO_RAW_QUERY, this.tableName, columnsList, columnRawValues);
 
-            String columnsList = String.join(",", columns);
-            String columnRawValues = generateSQLPlaceholders(columns.size());
-            String query = String.format(INSERT_INTO_RAW_QUERY, this.tableName, columnsList, columnRawValues);
+        PreparedStatement statement = this.autoIncrement ?
+                connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS) :
+                connection.prepareStatement(query);
 
-            PreparedStatement statement = this.autoIncrement ?
-                    connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS) :
-                    connection.prepareStatement(query);
+        for (T entity : entities) {
+            populateStatement(statement, entity, columns);
+            statement.addBatch();
+        }
 
-            for (T entity : entities) {
-                populateStatement(statement, entity, columns);
-                statement.addBatch();
-            }
+        int[] ints = statement.executeBatch();
 
-            int[] ints = statement.executeBatch();
+        if (this.autoIncrement) {
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
 
-            if (this.autoIncrement) {
-                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                BiConsumer<T, Object> idSetter = this.fieldValueSettersMap.get(publicKeyColumnName);
 
-                    BiConsumer<T, Object> idSetter = this.fieldValueSettersMap.get(publicKeyColumnName);
-
-                    for (T entity : entities) {
-                        if (generatedKeys.next()) {
-                            long key = generatedKeys.getLong(1);
-                            idSetter.accept(entity, key);
-                        } else {
-                            throw new SQLException("Creation failed, no ID obtained for one of the entities.");
-                        }
+                for (T entity : entities) {
+                    if (generatedKeys.next()) {
+                        long key = generatedKeys.getLong(1);
+                        idSetter.accept(entity, key);
+                    } else {
+                        throw new SQLException("Creation failed, no ID obtained for one of the entities.");
                     }
                 }
             }
-
-            connection.commit();  // Commit transaction
-            return ints;
-
-        } catch (SQLException e) {
-            connection.rollback();  // Roll back transaction on error
-            throw e;
-        } finally {
-            connection.setAutoCommit(true);  // Reset auto-commit to true
         }
+        return ints;
     }
 
     // Update methods
@@ -481,34 +469,25 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final int[] update(Connection connection, List<T> entities) throws SQLException {
+        List<String> columnsToUpdate = new ArrayList<>(this.columnNames);
+        columnsToUpdate.remove(this.publicKeyColumnIndex);
+        StringBuilder builder = new StringBuilder();
+        columnsToUpdate.forEach((String column)->{
+            builder.append(column.concat(" = ?,"));
+        });
+        String updateBodyRawQuery = builder.deleteCharAt( builder.length() -1).toString();
+        String query = String.format(UPDATE_RAW_QUERY, this.tableName,updateBodyRawQuery,this.publicKeyColumnName);
+        PreparedStatement statement = connection.prepareStatement(query);
+        Function<T, Object> idGetter = this.fieldValueGetterMap.get(this.publicKeyColumnName);
 
-        try {
-            connection.setAutoCommit(false);
-            List<String> columnsToUpdate = new ArrayList<>(this.columnNames);
-            columnsToUpdate.remove(this.publicKeyColumnIndex);
-            StringBuilder builder = new StringBuilder();
-            columnsToUpdate.forEach((String column)->{
-                builder.append(column.concat(" = ?,"));
-            });
-            String updateBodyRawQuery = builder.deleteCharAt( builder.length() -1).toString();
-            String query = String.format(UPDATE_RAW_QUERY, this.tableName,updateBodyRawQuery,this.publicKeyColumnName);
-            PreparedStatement statement = connection.prepareStatement(query);
-            Function<T, Object> idGetter = this.fieldValueGetterMap.get(this.publicKeyColumnName);
-
-            for (T entity : entities) {
-                int parameterIndex = populateStatement(statement,entity,columnsToUpdate);
-                Object entityId = idGetter.apply(entity);
-                statement.setObject(parameterIndex + 1, entityId);
-                statement.addBatch();
-            }
-
-            return statement.executeBatch();
-
-        } catch (SQLException e) {
-            throw e;
-        } finally {
-            connection.setAutoCommit(true);
+        for (T entity : entities) {
+            int parameterIndex = populateStatement(statement,entity,columnsToUpdate);
+            Object entityId = idGetter.apply(entity);
+            statement.setObject(parameterIndex + 1, entityId);
+            statement.addBatch();
         }
+
+        return statement.executeBatch();
     }
 
     // Delete methods
@@ -531,31 +510,17 @@ public class Repository<T> {
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
     public final void delete(Connection connection, List<T> entities) throws SQLException {
+        String query = String.format(DELETE_BY_KEY_RAW_QUERY, this.tableName, publicKeyColumnName);
+        PreparedStatement statement = connection.prepareStatement(query);
+        Function<T, Object> idGetter = fieldValueGetterMap.get(publicKeyColumnName);
 
-        connection.setAutoCommit(false);
-
-        try{
-
-            String query = String.format(DELETE_BY_KEY_RAW_QUERY, this.tableName, publicKeyColumnName);
-            PreparedStatement statement = connection.prepareStatement(query);
-            Function<T, Object> idGetter = fieldValueGetterMap.get(publicKeyColumnName);
-
-            for (T entity : entities) {
-                Object id = idGetter.apply(entity);
-                statement.setObject(1, id);
-                statement.addBatch();
-            }
-
-            statement.executeBatch();
-
-            connection.commit();
-
-        } catch (SQLException e) {
-            connection.rollback();
-            throw e;
-        } finally {
-            connection.setAutoCommit(true);
+        for (T entity : entities) {
+            Object id = idGetter.apply(entity);
+            statement.setObject(1, id);
+            statement.addBatch();
         }
+
+        statement.executeBatch();
     }
 
     /**
