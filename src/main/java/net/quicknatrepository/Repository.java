@@ -123,30 +123,58 @@ public class Repository<T> {
             this.sortOrder = sortOrder.isEmpty() ? Optional.empty() : Optional.of(sortOrder);
         }
 
+        /**
+         * Set the page
+         * @param page The page
+         */
         public void setPage(Long page) {
             this.page = page;
         }
 
+        /**
+         * Set the size
+         * @param size The size
+         */
         public void setSize(Long size) {
             this.size = size;
         }
 
+        /**
+         * Set the sort field
+         * @param sortField The sort field (field name)
+         */
         public void setSortField(String sortField) {
             this.sortField = sortField.isEmpty() ? Optional.empty() : Optional.of(sortField);
         }
 
+        /**
+         * Set the sort order
+         * @param sortOrder The sort order ("asc" or "desc")
+         */
         public void setSortOrder(String sortOrder) {
             this.sortOrder = sortOrder.isEmpty() ? Optional.empty() : Optional.of(sortOrder);
         }
 
+        /**
+         * Get the page
+         * @return The page (starting from 0)
+         */
         public Long getPage() {
             return page;
         }
 
+        /**
+         * Get the size
+         * @return The size
+         */
         public Long getSize() {
             return size;
         }
 
+        /**
+         * Get the offset
+         * @return The offset
+         */
         public Long offset(){
             return page * size;
         }
@@ -566,13 +594,13 @@ public class Repository<T> {
      * @return True if the operation was successful
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
-    public final void deleteBy(Connection connection, String columnName, List<Object> values) throws SQLException {
-        if (values.isEmpty()) return;
+    public final boolean deleteBy(Connection connection, String columnName, List<Object> values) throws SQLException {
+        if (values.isEmpty()) return false;
         String rawKeys = generateSQLPlaceholders(values.size());
         String query = String.format(DELETE_BY_KEYS_RAW_QUERY, this.tableName, columnName, rawKeys);
         PreparedStatement statement = connection.prepareStatement(query);
         populateStatement(statement, values);
-        statement.execute();
+        return statement.execute();
     }
 
     /**
@@ -590,10 +618,11 @@ public class Repository<T> {
      * Delete entities by ids
      * @param connection The connection
      * @param ids The ids
+     * @return True if the operation was successful
      * @throws SQLException The SQL exception if the operation fails for any reason
      */
-    public final void deleteByIds(Connection connection, List<Object> ids) throws SQLException {
-        deleteBy(connection, this.publicKeyColumnName, ids);
+    public final boolean deleteByIds(Connection connection, List<Object> ids) throws SQLException {
+        return deleteBy(connection, this.publicKeyColumnName, ids);
     }
 
     /**
