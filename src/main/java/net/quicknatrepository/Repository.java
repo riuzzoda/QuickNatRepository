@@ -69,8 +69,8 @@ public class Repository<T> {
     private final static String SELECT_BY_KEYS_ORDER_BY_LIMIT_OFFSET_RAW_QUERY = "SELECT %s FROM %s WHERE %s IN ( %s ) ORDER BY %s LIMIT %s OFFSET %s;";
 
     private final static String DELETE_BY_KEY_RAW_QUERY = "DELETE FROM %s WHERE %s = ?;";
-    private final static String DELETE_BY_KEYS_RAW_QUERY = "DELETE FROM %s WHERE %s  IN ( %s );";
-    private final static String DELETE_WHERE_RAW_QUERY = "DELETE FROM %s WHERE %s = ?;";
+    private final static String DELETE_BY_KEYS_RAW_QUERY = "DELETE FROM %s WHERE %s IN ( %s );";
+    private final static String DELETE_WHERE_RAW_QUERY = "DELETE FROM %s WHERE %s;";
     private final static String DELETE_ALL_RAW_QUERY = "DELETE FROM %s;";
 
     private final static String SELECT_TOTAL_ROWS_RAW_QUERY = "SELECT COUNT(%s) as total FROM %s";
